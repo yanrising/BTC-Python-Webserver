@@ -11,7 +11,11 @@
  
  <h3>Python dependencies:</h3>
  <p>pip install bitcoinlib<br>
- pip install pygame</p>
+ pip install pygame<br>
+ pip install mmh3<br>
+ pip install xxhash<br>
+ pip install bitarray<br>
+ pip install base58</p>
  
 <h3>Usage:</h3>
  <p>localhost:3333/1  -   go to page number 1 </p>
