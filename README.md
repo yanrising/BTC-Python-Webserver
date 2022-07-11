@@ -8,6 +8,7 @@
  - BloomFilter file creation (first download txt database from http://addresses.loyce.club/ or use your own address.txt file)
  </p>
  
+ <h3>Python dependencies:</h3>
  <p>pip install bitcoinlib<br>
  pip install pygame</p>
  Usage:<br>
