@@ -23,7 +23,10 @@
  <p>localhost:3333/(3456-9876) - set range for random</p>
  <p>or just paste the same in the Search Field</p>
  <br>
- <h2>You can download fresh txt database with addresses from here: http://addresses.loyce.club/</h2>
+ <h4>You can download fresh txt database with addresses from here: http://addresses.loyce.club/</h4>
+ <p>Download. Unpack. Name it address.txt</p>
+ <p>Start create_bloom_file.py and wait untill done.</p>
+ <p>Then just start webserver_5.0.9.py</p>
  
 ![Screenshot (6)](https://user-images.githubusercontent.com/46902666/176505337-fc76f15a-f4df-44f5-882c-45374b600a74.png)
 ![Screenshot (5)](https://user-images.githubusercontent.com/46902666/176505407-a2ba2fcf-34cf-450b-90ac-d5d75c2a8ef5.png)
