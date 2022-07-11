@@ -5,6 +5,7 @@
  - Set any curve point with its respective coefficient as Generator point (default G of secp256k1)<br>
  - All three points with same y-coordinate and private keys thanks to lambda and lambda2 values in modal window by hex key click<br>
  - Check address balance from txt file database with play sound when found<br>
+ - BloomFilter file creation (first download txt database from http://addresses.loyce.club/ or use your own)
  </p>
  
  <p>pip install bitcoinlib<br>
