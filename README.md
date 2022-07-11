@@ -11,7 +11,8 @@
  <h3>Python dependencies:</h3>
  <p>pip install bitcoinlib<br>
  pip install pygame</p>
- Usage:<br>
+ 
+<h3>Usage:</h3>
  <p>localhost:3333/1  -   go to page number 1 </p>
  <p>localhost:3333/@1098761 - search page by private key in decimal </p>
  <p>localhost:3333/$FA783FFDE - search page by private key in hex </p>
