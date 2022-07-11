@@ -5,7 +5,7 @@
  - Set any curve point with its respective coefficient as Generator point (default G of secp256k1)<br>
  - All three points with same y-coordinate and private keys thanks to lambda and lambda2 values in modal window by hex key click<br>
  - Check address balance from bloomfilter file database with play sound when found<br>
- - BloomFilter file creation (first download txt database from http://addresses.loyce.club/ or use your own address.txt file)<br>
+ - BloomFilter file creation (first download txt database from http://addresses.loyce.club/)<br>
  - Legacy(Compressed, Uncompressed), P2SH, Bech32 P2WPKH, Bech32 P2WSH addresses 
  </p>
  
