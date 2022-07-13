@@ -13,7 +13,6 @@ counter = 0
 with open(filename) as in_file:
     for addr in in_file:
         bloom.insert_mm(addr.strip())
-        #bloom.insert_fnv(addr.strip())
         counter +=1        
 now = datetime.now()
 time = now.strftime("%H:%M:%S")
