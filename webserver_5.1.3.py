@@ -13,7 +13,8 @@ from bloomfilter import *
 
 hostName = "localhost"
 serverPort = 3333
-version = "v5.1.2"
+version = "v5.1.3"
+found_sound = 'success.mp3'
 
 N = 115792089237316195423570985008687907852837564279074904382605163141518161494337
 G = bytes(bytearray.fromhex('0479be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8'))
@@ -81,7 +82,6 @@ class WebServer(BaseHTTPRequestHandler):
     previous=next= 0
     max = 904625697166532776746648320380374280100293470930272690489102837043110636675
     middle = 452312848583266388373324160190187140050146735465136345244551418521555318338 
-
     hj = 85966769946697919304477156997851416897897452779964215616135418886216209408
     jk = 551340488851368173693535237984541213163631919119002481700768830238824024064
     L1 = 398639737335773246472125555160783623763937797351505550641748492138749584881
@@ -98,7 +98,6 @@ class WebServer(BaseHTTPRequestHandler):
     rndMax = max
     first = 1
     stride = 1
-
     p1=p2=p3=p4=p5=p6=1
     p7 = 2
     p8 = 3
@@ -350,14 +349,15 @@ class WebServer(BaseHTTPRequestHandler):
     p254 = 226156424291633194186662080095093570025917938800079226639565593765455331329
     p255 = 452312848583266388373324160190187140051835877600158453279131187530910662657
 
-    idx1,idx2,idx3 = (0,0,0)
+    idx1=idx2=idx3 = 0
     privKey=privKey_C=bitAddr=bitAddr_C=searchKey=searchKey_U= "" #searchKey when we search for page by pasting privatekey hex in url localhost:3333/$fff 
     starting_key_hex=ending_key_hex = ""                                          #searchKeyU when we search for page by pasting privatekey decimal in url localhost:3333/@10985746
     privateKey = privateKey_C = ""
     publicKey = publicKey_C = ""
+    foundling = "" 
+    balance_on_page = "False"
     addresses = list()
     addr_count = ""
-    
     bloomfile = 'bloomfile_btc.bf'
     bloom = BloomFilter(420000000, 0.007, bloomfile)
     with open('count.txt', 'r') as in_file:
@@ -366,9 +366,6 @@ class WebServer(BaseHTTPRequestHandler):
     now = datetime.now()
     time = now.strftime("%H:%M:%S")
     print(f"[{time}] Addresses loaded: " + str(addr_count))
-
-    foundling = "" 
-    balance_on_page = "False"
 
     def isHex(s):
         for ch in s:
@@ -536,50 +533,12 @@ class WebServer(BaseHTTPRequestHandler):
                         f.write(f"Bitcoin Address: {addr} Page# {page_num} \n") #saving if found: address page#
             if status == "Yes":
                 mixer.init()
-                mixer.music.load("success.mp3")
+                mixer.music.load(found_sound)
                 mixer.music.play()
             self.wfile.write(bytes(status, "utf-8"))
             addresses.clear()
 #-------#--------Search Field-----------------------------------------------------------------------------------------------------------------
         elif str_url.startswith("S"):
-            self.wfile.write(bytes("""
-<div class='overlay_popup'></div>
-<div class='popup' id='popup1'>
-<div class='object' style='overflow-y:auto;overflow-x:hidden;'>
-<h4 style='color:brown;font-weight:bold;text-align:right;'>
-<button class='arrow' id='arrow_left' style='color:blue;margin-left:132px;'><<<</button>&nbsp;&nbsp;
-<span style='color:brown;' id='arrow_num'>1</span> <span style='color:brown;'>of</span> <span  id='all_num' style='color:brown;'>128</span>&nbsp;&nbsp;
-<button class='arrow' id='arrow_right' style='color:blue;'>>>></button>&nbsp;&nbsp;</h4>
-<h4 style='color:brown;font-weight:bold;'>Private and Public ECDSA Key</h4>
-<p id='funbin' style='color:#DE3163;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;word-wrap: break-word;'></p>
-<p id='funhex' style='color:#DE3163;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='fun' style='color:#DE3163;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='fun2x' style='color:#21618C;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='fun2y' style='color:#239B56;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='fun3x' style='color:#21618C;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='fun3y' style='color:#239B56;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='fun5' style='color:#21618C;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='fun4' style='color:#34495E ;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='funaddr1' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='funaddr2' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>            
-<h4 style='color:brown;font-weight:bold;'>Additive Inverse Point</h4>
-<p id='addinvn' style='color:#DE3163;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='addinvx' style='color:#21618C;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='addinvy' style='color:#239B56;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='addrinv' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='addrinvpb' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<h4 style='color:brown;font-weight:bold;'>Two More Points same Y different X</h4>
-<p id='same1n' style='color:#DE3163;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same1x' style='color:#21618C;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same1y' style='color:#239B56;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same1addr' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same1addrpb' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same2n' style='color:#DE3163;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same2x' style='color:#21618C;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same2y' style='color:#239B56;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same2addr' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same2addrpb' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-</div></div>""", "utf-8"))
             str_url = self.path[2:] #gettin / outta way from url we do not need
             if str_url.startswith('5H') or str_url.startswith('5J') or str_url.startswith('5K'): # if url starts with 5H 5J 5K we request page by 5WIF
                 first_encode = base58.b58decode(self.path[2:])
@@ -621,7 +580,7 @@ class WebServer(BaseHTTPRequestHandler):
                     __class__.idx2 = str_url.index("]")
                     __class__.num = 1
                     __class__.stride = int(str_url[__class__.idx1+1:__class__.idx2],10)
-                    self.wfile.write(bytes("<script>$('#cur_inc').html("+str(__class__.stride)+");</script>", "utf-8"))
+                    self.wfile.write(bytes("<script>$('#cur_inc').html(BigInt("+str(__class__.stride)+"));</script>", "utf-8"))
                     __class__.previous = __class__.num - 1
                     if __class__.previous == 0:
                         __class__.previous = 1
@@ -635,8 +594,8 @@ class WebServer(BaseHTTPRequestHandler):
                     __class__.idx3 = str_url.index(")")
                     __class__.randomMin = int(str_url[__class__.idx1+1:__class__.idx2],10)
                     __class__.randomMax = int(str_url[__class__.idx2+1:__class__.idx3],10)
-                    self.wfile.write(bytes("<script>$('#rand_min').html("+str(__class__.randomMin)+");</script>", "utf-8"))
-                    self.wfile.write(bytes("<script>$('#rand_max').html("+str(__class__.randomMax)+");</script>", "utf-8"))
+                    self.wfile.write(bytes("<script>$('#rand_min').html(BigInt("+str(__class__.randomMin)+"));</script>", "utf-8"))
+                    self.wfile.write(bytes("<script>$('#rand_max').html(BigInt("+str(__class__.randomMax)+"));</script>", "utf-8"))
                     __class__.random = __class__.RandomInteger(__class__.randomMin,__class__.randomMax)
                     __class__.num = 1
                     __class__.previous = __class__.num - 1
@@ -715,23 +674,19 @@ class WebServer(BaseHTTPRequestHandler):
                             if __class__.next > __class__.max:
                                  __class__.next = __class__.max
                             __class__.random = __class__.RandomInteger(__class__.randomMin,__class__.randomMax)
-            ###-------------------------------------------------------------------------------
             __class__.startPrivKey = (__class__.num - 1) * 128+1
             __class__.random5H = __class__.RandomInteger(__class__.rndMin,__class__.hj)
             __class__.random5J = __class__.RandomInteger(__class__.hj,__class__.jk)
             __class__.random5K = __class__.RandomInteger(__class__.jk,__class__.rndMax)
-             
             __class__.randomKw = __class__.RandomInteger(__class__.rndMin,__class__.Kx)
             __class__.randomKx = __class__.RandomInteger(__class__.Kx,__class__.Ky)
             __class__.randomKy = __class__.RandomInteger(__class__.Ky,__class__.Kz)
             __class__.randomKz = __class__.RandomInteger(__class__.Kz,__class__.L1)
-            
             __class__.randomL1 = __class__.RandomInteger(__class__.L1,__class__.L2) 
             __class__.randomL2 = __class__.RandomInteger(__class__.L2,__class__.L3)
             __class__.randomL3 = __class__.RandomInteger(__class__.L3,__class__.L4)
             __class__.randomL4 = __class__.RandomInteger(__class__.L4,__class__.L5)
-            __class__.randomL5 = __class__.RandomInteger(__class__.L5,__class__.rndMax)
-            #_________________________________________________________________________________                             
+            __class__.randomL5 = __class__.RandomInteger(__class__.L5,__class__.rndMax)                            
             self.wfile.write(bytes("<h3><span style='color:#145A32;background-color:#f2f3f4;padding:2px;border-radius: 2px;'>Page #</span> <span id='current_page' style='color: #145A32;padding:2px;background-color:#f2f3f4;border-radius: 2px;'>" + str(__class__.num) + "</span> <span style='color:#145A32;'><< out of >></span> <span style='color:#145A32;padding:2px;background-color:#f2f3f4;border-radius: 2px;'>904625697166532776746648320380374280100293470930272690489102837043110636675</span></h3>", "utf-8"))
             self.wfile.write(bytes("<pre class='keys'>[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.previous)+"'>previous</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.next)+"'>next</span> | ", "utf-8"))
@@ -740,7 +695,6 @@ class WebServer(BaseHTTPRequestHandler):
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.middle)+"'>middle</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.max)+"'>last</span>&nbsp;]", "utf-8"))
             self.wfile.write(bytes("</pre>", "utf-8"))
-                        
             self.wfile.write(bytes("<pre class='keys'>", "utf-8"))
             self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.random5H)+"'>5H_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random5J)+"'>5J_random</span> | ", "utf-8"))
@@ -755,18 +709,15 @@ class WebServer(BaseHTTPRequestHandler):
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL4)+"'>L4_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL5)+"'>L5_random</span>&nbsp;]", "utf-8"))
             self.wfile.write(bytes("</pre>", "utf-8"))
-
             __class__.starting_key_hex = hex((__class__.startPrivKey*Point_Coefficient)%N)[2:].zfill(64)
             if __class__.startPrivKey == 115792089237316195423570985008687907852837564279074904382605163141518161494273:
                 __class__.ending_key_hex = hex((__class__.startPrivKey*Point_Coefficient+63*Point_Coefficient)%N)[2:].zfill(64)
             else:
                 __class__.ending_key_hex = hex((__class__.startPrivKey*Point_Coefficient+127*Point_Coefficient)%N)[2:].zfill(64)
-
             self.wfile.write(bytes("<p style='color:gray;font-weight:bold;'>*Starting Private Key Hex: " + str(__class__.starting_key_hex) + "</p>", "utf-8"))
             self.wfile.write(bytes("<p style='color:gray;font-weight:bold;'>**Ending Private Key Hex: " + str(__class__.ending_key_hex) + "</p>", "utf-8"))
             self.wfile.write(bytes("<p id='balance' style='color:#9A2A2A;font-weight:bold;'>Balance on this Page: False</p>", "utf-8"))
             self.wfile.write(bytes("<pre class='keys'><strong style='display:inline-block;width:444px;text-align:center;'>Private Key Hex</strong><strong style='display:inline-block;width:360px;text-align:center;'>WIF Private Key Uncompressed</strong><strong style='display:inline-block;width:242px;text-align:center;'>Legacy Uncompressed Address</strong><strong style='display:inline-block;width:242px;text-align:center;'>Legacy Compressed Address</strong><strong style='display:inline-block;width:244px;text-align:center;'>Segwit P2SH Address</strong><strong style='display:inline-block;width:298px;text-align:center;'>Bech32 P2WPKH Address</strong><strong style='display:inline-block;width:436px;text-align:center;'>Bech32 P2WSH Address</strong><strong style='display:inline-block;width:368px;text-align:center;'>WIF Private Key Compressed</strong><br>", "utf-8"))
-
             for i in range(128):
                 pub = ice.point_multiplication(__class__.startPrivKey,G).hex()
                 dec = int((__class__.startPrivKey*Point_Coefficient)%N)
@@ -804,240 +755,41 @@ class WebServer(BaseHTTPRequestHandler):
                         f.write(f"Bitcoin Address: {addr} Page# {__class__.num} \n")
             if __class__.balance_on_page == "True":
                 mixer.init()
-                mixer.music.load("success.mp3")
+                mixer.music.load(found_sound)
                 mixer.music.play()
-                
             self.wfile.write(bytes("</pre><pre class='keys'>[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.previous)+"'>previous</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.next)+"'>next</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random)+"'>random</span>&nbsp;]", "utf-8"))
             self.wfile.write(bytes("</pre>", "utf-8"))
             self.wfile.write(bytes("<p style='color:#9A2A2A;font-weight:bold;'>Balance on this Page: " + __class__.balance_on_page + " " + __class__.foundling + "</p>", "utf-8"))
             self.wfile.write(bytes("<script>var elem = document.getElementById('balance');elem.innerHTML = 'Balance on this Page: " + __class__.balance_on_page + " " + __class__.foundling + "'</script>", "utf-8"))
-            self.wfile.write(bytes("""
-<script>                       
-$('.show_popup').click(function() {
-    var path = window.location.pathname;
-    if(path == '/904625697166532776746648320380374280100293470930272690489102837043110636675') { $('#all_num').html(64); }           
-    var val = $(this).attr('value');
-    var num = $(this).attr('num');
-    $('#arrow_num').html(num);
-    var decNum = BigInt("0x"+val);
-    $('#arrow_num').attr('dec', decNum);
-    $.get("http://localhost:3333/!"+decNum, function(data, status){
-        const myArray = data.split(" ");
-        $('#fun2x').html('x: '+myArray[0]);
-        $('#fun2y').html('y: '+myArray[1]);
-        $('#fun3x').html('x: '+myArray[2]);
-        $('#fun3y').html('y: '+myArray[3]);
-        $('#fun4').html("U: " +myArray[4]+ "&nbsp;&nbsp;C: " +myArray[5]);
-        if(myArray[6].length > 1) { $('#funbin').html(myArray[6]+"<br>("+myArray[6].length+" bits)"); }
-        else { $('#funbin').html(myArray[6]+"<br>("+myArray[6].length+" bit)"); }
-        $('#fun5').html('x: ' +myArray[7]);
-        $('#addinvx').html('x: ' +myArray[8]);
-        $('#addinvy').html('y: ' +myArray[9]);
-        $('#addrinv').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[13]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[10]+"'>" +myArray[10]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[11]+"'>" +myArray[11]+"</a>");
-        $('#addinvn').html(myArray[12]);
-        $('#same1x').html('x: ' +myArray[14]);
-        $('#same1y').html('y: ' +myArray[1]);
-        $('#same1addr').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[17]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[15]+"'>" +myArray[15]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[16]+"'>" +myArray[16]+"</a>");
-        $('#same2x').html('x: ' +myArray[18]);
-        $('#same2y').html('y: ' +myArray[1]);
-        $('#same2addr').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[21]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[19]+"'>" +myArray[19]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[20]+"'>" +myArray[20]+"</a>");
-        $('#fun').html(myArray[22]);
-        $('#funhex').html(myArray[23]);
-        $('#same1n').html(myArray[24]);
-        $('#same2n').html(myArray[25]);
-        $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
-        $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
-        $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
-        $('#funaddr1').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[35]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[36]+"'>" +myArray[36]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[37]+"'>" +myArray[37]+"</a>");
-        $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
-    })           
-    var popup_id = $('#' + $(this).attr('rel'));
-    $(popup_id).show();
-    $('.overlay_popup').show();
-    $(this).attr('style',  'color:#DE3163;display:inline-block;width:450px;font-weight:bold;');                
-})
-$('.overlay_popup').click(function() {
-    $('.overlay_popup, .popup').hide();
-})
-$('.ajax').click(function() { 
-    var pnum = $(this).attr('page');
-    pnum = pnum.substring(1);
-    $.get("http://localhost:3333/A"+pnum, function(data, status){
-        $('#main_content').html(data)
-        history.pushState({}, null, "http://localhost:3333/"+pnum); 
-    })
-})
-$('#arrow_left').click(function() {
-    var item_num = parseInt($('#arrow_num').html());
-    if(item_num > 1) { 
-        $('#arrow_num').html(item_num - 1);
-        var decNum = $('#arrow_num').attr('dec');
-        var bigNum = BigInt(decNum);
-        var j = (bigNum - point_coefficient) % N
-        if (j < 0) { j = j < 0n ? -j : j; j = N - j; }
-        $.get("http://localhost:3333/!"+(j), function(data, status){
-            const myArray = data.split(" ");
-            $('#fun2x').html('x: '+myArray[0]);
-            $('#fun2y').html('y: '+myArray[1]);
-            $('#fun3x').html('x: '+myArray[2]);
-            $('#fun3y').html('y: '+myArray[3]);
-            $('#fun4').html("U: " +myArray[4]+ "&nbsp;&nbsp;C: " +myArray[5]);
-            if(myArray[6].length > 1) { $('#funbin').html(myArray[6]+"<br>("+myArray[6].length+" bits)"); }
-            else { $('#funbin').html(myArray[6]+"<br>("+myArray[6].length+" bit)"); }
-            $('#fun5').html('x: ' +myArray[7]);
-            $('#addinvx').html('x: ' +myArray[8]);
-            $('#addinvy').html('y: ' +myArray[9]);
-            $('#addrinv').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[13]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[10]+"'>" +myArray[10]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[11]+"'>" +myArray[11]+"</a>");
-            $('#addinvn').html(myArray[12]);
-            $('#same1x').html('x: ' +myArray[14]);
-            $('#same1y').html('y: ' +myArray[1]);
-            $('#same1addr').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[17]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[15]+"'>" +myArray[15]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[16]+"'>" +myArray[16]+"</a>");
-            $('#same2x').html('x: ' +myArray[18]);
-            $('#same2y').html('y: ' +myArray[1]);
-            $('#same2addr').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[21]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[19]+"'>" +myArray[19]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[20]+"'>" +myArray[20]+"</a>");
-            $('#fun').html(myArray[22]);
-            $('#funhex').html(myArray[23]);
-            $('#same1n').html(myArray[24]);
-            $('#same2n').html(myArray[25]);
-            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
-            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
-            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
-            $('#funaddr1').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[35]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[36]+"'>" +myArray[36]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[37]+"'>" +myArray[37]+"</a>");
-            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
-        })
-        var j = (bigNum - point_coefficient) % N
-        if (j < 0) { j = j < 0n ? -j : j; j = N - j;$('#arrow_num').attr('dec', j); }
-        else { $('#arrow_num').attr('dec', (bigNum - point_coefficient) % N); }
-        var set_style = parseInt($('#arrow_num').html());
-        $('*[num="'+(set_style)+'"]').attr('style',  'color:#DE3163;display:inline-block;width:450px;font-weight:bold;');
-        $('html, body').animate({scrollTop: $('*[num="'+(set_style)+'"]').offset().top}, 200); 
-    }
-    else { 
-        $('#arrow_num').html(item_num); 
-    }
-})
-$('#arrow_right').click(function() {
-    var last = 128;
-    var path = window.location.pathname;
-    if(path == '/904625697166532776746648320380374280100293470930272690489102837043110636675') { last = 64; $('#all_num').html(64); }
-    var item_num = parseInt($('#arrow_num').html());
-    if(item_num != last) { 
-        $('#arrow_num').html(item_num + 1);
-        var decNum = $('#arrow_num').attr('dec');
-        var bigNum = BigInt(decNum);
-        $.get("http://localhost:3333/!"+((bigNum + point_coefficient) % N), function(data, status){
-            const myArray = data.split(" ");
-            $('#fun2x').html('x: '+myArray[0]);
-            $('#fun2y').html('y: '+myArray[1]);
-            $('#fun3x').html('x: '+myArray[2]);
-            $('#fun3y').html('y: '+myArray[3]);
-            $('#fun4').html("U: " +myArray[4]+ "&nbsp;&nbsp;C: " +myArray[5]);
-            if(myArray[6].length > 1) { $('#funbin').html(myArray[6]+"<br>("+myArray[6].length+" bits)"); }
-            else { $('#funbin').html(myArray[6]+"<br>("+myArray[6].length+" bit)"); }
-            $('#fun5').html('x: ' +myArray[7]);
-            $('#addinvx').html('x: ' +myArray[8]);
-            $('#addinvy').html('y: ' +myArray[9]);
-            $('#addrinv').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[13]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[10]+"'>" +myArray[10]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[11]+"'>" +myArray[11]+"</a>");
-            $('#addinvn').html(myArray[12]);
-            $('#same1x').html('x: ' +myArray[14]);
-            $('#same1y').html('y: ' +myArray[1]);
-            $('#same1addr').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[17]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[15]+"'>" +myArray[15]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[16]+"'>" +myArray[16]+"</a>");
-            $('#same2x').html('x: ' +myArray[18]);
-            $('#same2y').html('y: ' +myArray[1]);
-            $('#same2addr').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[21]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[19]+"'>" +myArray[19]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[20]+"'>" +myArray[20]+"</a>");
-            $('#fun').html(myArray[22]);
-            $('#funhex').html(myArray[23]);
-            $('#same1n').html(myArray[24]);
-            $('#same2n').html(myArray[25]);
-            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
-            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
-            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
-            $('#funaddr1').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[35]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[36]+"'>" +myArray[36]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[37]+"'>" +myArray[37]+"</a>");
-            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
-        })
-        $('#arrow_num').attr('dec', (bigNum + point_coefficient) % N);
-        var set_style = parseInt($('#arrow_num').html());
-        $('*[num="'+(set_style)+'"]').attr('style',  'color:#DE3163;display:inline-block;width:450px;font-weight:bold;');
-        $('html, body').animate({scrollTop: $('*[num="'+(set_style)+'"]').offset().top}, 200);
-    }
-    else { 
-        $('#arrow_num').html(last); 
-    }
-})
-</script>""", "utf-8")) 
             __class__.addresses.clear()         
             __class__.balance_on_page = "False"
             __class__.foundling = ""
 #-------#--------Search Field End-----------------------------------------------------------
-        elif str_url.startswith("A"): #AJAX Full Page Refresh
-            self.wfile.write(bytes("""
-<div class='overlay_popup'></div>
-<div class='popup' id='popup1'>
-<div class='object' style='overflow-y:auto;overflow-x:hidden;'>
-<h4 style='color:brown;font-weight:bold;text-align:right;'>
-<button class='arrow' id='arrow_left' style='color:blue;margin-left:132px;'><<<</button>&nbsp;&nbsp;
-<span style='color:brown;' id='arrow_num'>1</span> <span style='color:brown;'>of</span> <span  id='all_num' style='color:brown;'>128</span>&nbsp;&nbsp;
-<button class='arrow' id='arrow_right' style='color:blue;'>>>></button>&nbsp;&nbsp;</h4>
-<h4 style='color:brown;font-weight:bold;'>Private and Public ECDSA Key</h4>
-<p id='funbin' style='color:#DE3163;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;word-wrap: break-word;'></p>
-<p id='funhex' style='color:#DE3163;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='fun' style='color:#DE3163;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='fun2x' style='color:#21618C;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='fun2y' style='color:#239B56;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='fun3x' style='color:#21618C;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='fun3y' style='color:#239B56;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='fun5' style='color:#21618C;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='fun4' style='color:#34495E ;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='funaddr1' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='funaddr2' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>           
-<h4 style='color:brown;font-weight:bold;'>Additive Inverse Point</h4>
-<p id='addinvn' style='color:#DE3163;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='addinvx' style='color:#21618C;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='addinvy' style='color:#239B56;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='addrinv' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='addrinvpb' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<h4 style='color:brown;font-weight:bold;'>Two More Points same Y different X</h4>
-<p id='same1n' style='color:#DE3163;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same1x' style='color:#21618C;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same1y' style='color:#239B56;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same1addr' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same1addrpb' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same2n' style='color:#DE3163;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same2x' style='color:#21618C;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same2y' style='color:#239B56;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same2addr' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-<p id='same2addrpb' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
-</div></div>""", "utf-8"))      
+        elif str_url.startswith("A"): #AJAX Full Page Refresh     
             str_url = self.path[2:]
             __class__.num = int(str_url,10)
             __class__.previous = __class__.num - 1;
-            
             if __class__.previous == 0:
                 __class__.previous = 1
             __class__.next = __class__.num + __class__.stride                
             if __class__.next > __class__.max:
                 __class__.next = __class__.max
-                
             __class__.random = __class__.RandomInteger(__class__.randomMin,__class__.randomMax)                
             __class__.startPrivKey = (__class__.num - 1) * 128+1
-
             __class__.random5H = __class__.RandomInteger(__class__.rndMin,__class__.hj)
             __class__.random5J = __class__.RandomInteger(__class__.hj,__class__.jk)
             __class__.random5K = __class__.RandomInteger(__class__.jk,__class__.rndMax)
-             
             __class__.randomKw = __class__.RandomInteger(__class__.rndMin,__class__.Kx)
             __class__.randomKx = __class__.RandomInteger(__class__.Kx,__class__.Ky)
             __class__.randomKy = __class__.RandomInteger(__class__.Ky,__class__.Kz)
             __class__.randomKz = __class__.RandomInteger(__class__.Kz,__class__.L1)
-            
             __class__.randomL1 = __class__.RandomInteger(__class__.L1,__class__.L2) 
             __class__.randomL2 = __class__.RandomInteger(__class__.L2,__class__.L3)
             __class__.randomL3 = __class__.RandomInteger(__class__.L3,__class__.L4)
             __class__.randomL4 = __class__.RandomInteger(__class__.L4,__class__.L5)
             __class__.randomL5 = __class__.RandomInteger(__class__.L5,__class__.rndMax)
-                            
             self.wfile.write(bytes("<h3><span style='color:#145A32;background-color:#f2f3f4;padding:2px;border-radius: 2px;'>Page #</span> <span id='current_page' style='color:#145A32;padding:2px;background-color:#f2f3f4;border-radius: 2px;'>" + str(__class__.num) + "</span> <span style='color:#145A32;'><< out of >></span> <span style='color:#145A32;padding:2px;background-color:#f2f3f4;border-radius: 2px;'>904625697166532776746648320380374280100293470930272690489102837043110636675</span></h3>", "utf-8"))
             self.wfile.write(bytes("<pre class='keys'>[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.previous)+"'>previous</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.next)+"'>next</span> | ", "utf-8"))
@@ -1046,7 +798,6 @@ $('#arrow_right').click(function() {
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.middle)+"'>middle</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.max)+"'>last</span>&nbsp;]", "utf-8"))
             self.wfile.write(bytes("</pre>", "utf-8"))
-            
             self.wfile.write(bytes("<pre class='keys'>", "utf-8"))
             self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.random5H)+"'>5H_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random5J)+"'>5J_random</span> | ", "utf-8"))
@@ -1061,18 +812,15 @@ $('#arrow_right').click(function() {
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL4)+"'>L4_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL5)+"'>L5_random</span>&nbsp;]", "utf-8"))
             self.wfile.write(bytes("</pre>", "utf-8"))
-
             __class__.starting_key_hex = hex((__class__.startPrivKey*Point_Coefficient)%N)[2:].zfill(64)
             if __class__.startPrivKey == 115792089237316195423570985008687907852837564279074904382605163141518161494273:
                 __class__.ending_key_hex = hex((__class__.startPrivKey*Point_Coefficient+63*Point_Coefficient)%N)[2:].zfill(64)
             else:
                 __class__.ending_key_hex = hex((__class__.startPrivKey*Point_Coefficient+127*Point_Coefficient)%N)[2:].zfill(64)
-                
             self.wfile.write(bytes("<p style='color:gray;font-weight:bold;'>*Starting Private Key Hex: " + str(__class__.starting_key_hex) + "</p>", "utf-8"))
             self.wfile.write(bytes("<p style='color:gray;font-weight:bold;'>**Ending Private Key Hex: " + str(__class__.ending_key_hex) + "</p>", "utf-8"))
             self.wfile.write(bytes("<p id='balance' style='color:#9A2A2A;font-weight:bold;'>Balance on this Page: False</p>", "utf-8"))
             self.wfile.write(bytes("<pre class='keys'><strong style='display:inline-block;width:444px;text-align:center;'>Private Key Hex</strong><strong style='display:inline-block;width:360px;text-align:center;'>WIF Private Key Uncompressed</strong><strong style='display:inline-block;width:242px;text-align:center;'>Legacy Uncompressed Address</strong><strong style='display:inline-block;width:242px;text-align:center;'>Legacy Compressed Address</strong><strong style='display:inline-block;width:244px;text-align:center;'>Segwit P2SH Address</strong><strong style='display:inline-block;width:298px;text-align:center;'>Bech32 P2WPKH Address</strong><strong style='display:inline-block;width:436px;text-align:center;'>Bech32 P2WSH Address</strong><strong style='display:inline-block;width:368px;text-align:center;'>WIF Private Key Compressed</strong><br>", "utf-8"))
-
             for i in range(128):
                 pub = ice.point_multiplication(__class__.startPrivKey,G).hex()
                 dec = int((__class__.startPrivKey*Point_Coefficient)%N)
@@ -1096,7 +844,6 @@ $('#arrow_right').click(function() {
                 if __class__.startPrivKey == 115792089237316195423570985008687907852837564279074904382605163141518161494336:
                      break
                 __class__.startPrivKey += 1
-
             for addr in __class__.addresses:
                 if __class__.bloom.lookup_mm(addr):
                     __class__.balance_on_page = "True"
@@ -1105,173 +852,14 @@ $('#arrow_right').click(function() {
                         f.write(f"Bitcoin Address: {addr} Page# {__class__.num} \n")
             if __class__.balance_on_page == "True":
                 mixer.init()
-                mixer.music.load("success.mp3")
+                mixer.music.load(found_sound)
                 mixer.music.play()
-
             self.wfile.write(bytes("</pre><pre class='keys'>[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.previous)+"'>previous</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.next)+"'>next</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random)+"'>random</span>&nbsp;]", "utf-8"))
             self.wfile.write(bytes("</pre>", "utf-8"))
             self.wfile.write(bytes("<p style='color:#9A2A2A;font-weight:bold;'>Balance on this Page: " + __class__.balance_on_page + " " + __class__.foundling + "</p>", "utf-8"))
             self.wfile.write(bytes("<script>var elem = document.getElementById('balance');elem.innerHTML = 'Balance on this Page: " + __class__.balance_on_page + " " + __class__.foundling + "'</script>", "utf-8"))
-            self.wfile.write(bytes("""
-<script>
-$('.ajax').click(function() { 
-    var pnum = $(this).attr('page');
-    pnum = pnum.substring(1);
-    $.get("http://localhost:3333/A"+pnum, function(data, status){
-        $('#main_content').html(data)
-        history.pushState({}, null, "http://localhost:3333/"+pnum); 
-    })
-})
-</script>""", "utf-8"))
-            self.wfile.write(bytes("""
-<script>                  
-$('.show_popup').click(function() {
-    var path = window.location.pathname;
-    if(path == '/904625697166532776746648320380374280100293470930272690489102837043110636675') { $('#all_num').html(64); }           
-    var val = $(this).attr('value');
-    var num = $(this).attr('num');
-    $('#arrow_num').html(num);
-    var decNum = BigInt("0x"+val);
-    $('#arrow_num').attr('dec', decNum);
-    $.get("http://localhost:3333/!"+decNum, function(data, status){
-        const myArray = data.split(" ");
-        $('#fun2x').html('x: '+myArray[0]);
-        $('#fun2y').html('y: '+myArray[1]);
-        $('#fun3x').html('x: '+myArray[2]);
-        $('#fun3y').html('y: '+myArray[3]);
-        $('#fun4').html("U: " +myArray[4]+ "&nbsp;&nbsp;C: " +myArray[5]);
-        if(myArray[6].length > 1) { $('#funbin').html(myArray[6]+"<br>("+myArray[6].length+" bits)"); }
-        else { $('#funbin').html(myArray[6]+"<br>("+myArray[6].length+" bit)"); }
-        $('#fun5').html('x: ' +myArray[7]);
-        $('#addinvx').html('x: ' +myArray[8]);
-        $('#addinvy').html('y: ' +myArray[9]);
-        $('#addrinv').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[13]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[10]+"'>" +myArray[10]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[11]+"'>" +myArray[11]+"</a>");
-        $('#addinvn').html(myArray[12]);
-        $('#same1x').html('x: ' +myArray[14]);
-        $('#same1y').html('y: ' +myArray[1]);
-        $('#same1addr').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[17]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[15]+"'>" +myArray[15]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[16]+"'>" +myArray[16]+"</a>");
-        $('#same2x').html('x: ' +myArray[18]);
-        $('#same2y').html('y: ' +myArray[1]);
-        $('#same2addr').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[21]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[19]+"'>" +myArray[19]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[20]+"'>" +myArray[20]+"</a>");
-        $('#fun').html(myArray[22]);
-        $('#funhex').html(myArray[23]);
-        $('#same1n').html(myArray[24]);
-        $('#same2n').html(myArray[25]);
-        $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
-        $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
-        $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
-        $('#funaddr1').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[35]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[36]+"'>" +myArray[36]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[37]+"'>" +myArray[37]+"</a>");
-        $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
-    })           
-    var popup_id = $('#' + $(this).attr('rel'));
-    $(popup_id).show();
-    $('.overlay_popup').show();
-    $(this).attr('style',  'color:#DE3163;display:inline-block;width:450px;font-weight:bold;');                
-})
-$('.overlay_popup').click(function() {
-    $('.overlay_popup, .popup').hide();
-})
-
-$('#arrow_left').click(function() {
-    var item_num = parseInt($('#arrow_num').html());
-    if(item_num > 1) { 
-        $('#arrow_num').html(item_num - 1);
-        var decNum = $('#arrow_num').attr('dec');
-        var bigNum = BigInt(decNum);
-        var j = (bigNum - point_coefficient) % N
-        if (j < 0) { j = j < 0n ? -j : j; j = N - j; }
-        $.get("http://localhost:3333/!"+(j), function(data, status){
-            const myArray = data.split(" ");
-            $('#fun2x').html('x: '+myArray[0]);
-            $('#fun2y').html('y: '+myArray[1]);
-            $('#fun3x').html('x: '+myArray[2]);
-            $('#fun3y').html('y: '+myArray[3]);
-            $('#fun4').html("U: " +myArray[4]+ "&nbsp;&nbsp;C: " +myArray[5]);
-            if(myArray[6].length > 1) { $('#funbin').html(myArray[6]+"<br>("+myArray[6].length+" bits)"); }
-            else { $('#funbin').html(myArray[6]+"<br>("+myArray[6].length+" bit)"); }
-            $('#fun5').html('x: ' +myArray[7]);
-            $('#addinvx').html('x: ' +myArray[8]);
-            $('#addinvy').html('y: ' +myArray[9]);
-            $('#addrinv').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[13]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[10]+"'>" +myArray[10]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[11]+"'>" +myArray[11]+"</a>");
-            $('#addinvn').html(myArray[12]);
-            $('#same1x').html('x: ' +myArray[14]);
-            $('#same1y').html('y: ' +myArray[1]);
-            $('#same1addr').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[17]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[15]+"'>" +myArray[15]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[16]+"'>" +myArray[16]+"</a>");
-            $('#same2x').html('x: ' +myArray[18]);
-            $('#same2y').html('y: ' +myArray[1]);
-            $('#same2addr').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[21]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[19]+"'>" +myArray[19]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[20]+"'>" +myArray[20]+"</a>");
-            $('#fun').html(myArray[22]);
-            $('#funhex').html(myArray[23]);
-            $('#same1n').html(myArray[24]);
-            $('#same2n').html(myArray[25]);
-            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
-            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
-            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
-            $('#funaddr1').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[35]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[36]+"'>" +myArray[36]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[37]+"'>" +myArray[37]+"</a>");
-            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
-        })
-        var j = (bigNum - point_coefficient) % N
-        if (j < 0) { j = j < 0n ? -j : j; j = N - j;$('#arrow_num').attr('dec', j); }
-        else { $('#arrow_num').attr('dec', (bigNum - point_coefficient) % N); }
-        var set_style = parseInt($('#arrow_num').html());
-        $('*[num="'+(set_style)+'"]').attr('style',  'color:#DE3163;display:inline-block;width:450px;font-weight:bold;');
-        $('html, body').animate({scrollTop: $('*[num="'+(set_style)+'"]').offset().top}, 200); 
-    }
-    else { 
-        $('#arrow_num').html(item_num); 
-    }
-})
-$('#arrow_right').click(function() {
-    var last = 128;
-    var path = window.location.pathname;
-    if(path == '/904625697166532776746648320380374280100293470930272690489102837043110636675') { last = 64; $('#all_num').html(64); }
-    var item_num = parseInt($('#arrow_num').html());
-    if(item_num != last) { 
-        $('#arrow_num').html(item_num + 1);
-        var decNum = $('#arrow_num').attr('dec');
-        var bigNum = BigInt(decNum);
-        $.get("http://localhost:3333/!"+((bigNum + point_coefficient) % N), function(data, status){
-            const myArray = data.split(" ");
-            $('#fun2x').html('x: '+myArray[0]);
-            $('#fun2y').html('y: '+myArray[1]);
-            $('#fun3x').html('x: '+myArray[2]);
-            $('#fun3y').html('y: '+myArray[3]);
-            $('#fun4').html("U: " +myArray[4]+ "&nbsp;&nbsp;C: " +myArray[5]);
-            if(myArray[6].length > 1) { $('#funbin').html(myArray[6]+"<br>("+myArray[6].length+" bits)"); }
-            else { $('#funbin').html(myArray[6]+"<br>("+myArray[6].length+" bit)"); }
-            $('#fun5').html('x: ' +myArray[7]);
-            $('#addinvx').html('x: ' +myArray[8]);
-            $('#addinvy').html('y: ' +myArray[9]);
-            $('#addrinv').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[13]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[10]+"'>" +myArray[10]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[11]+"'>" +myArray[11]+"</a>");
-            $('#addinvn').html(myArray[12]);
-            $('#same1x').html('x: ' +myArray[14]);
-            $('#same1y').html('y: ' +myArray[1]);
-            $('#same1addr').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[17]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[15]+"'>" +myArray[15]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[16]+"'>" +myArray[16]+"</a>");
-            $('#same2x').html('x: ' +myArray[18]);
-            $('#same2y').html('y: ' +myArray[1]);
-            $('#same2addr').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[21]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[19]+"'>" +myArray[19]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[20]+"'>" +myArray[20]+"</a>");
-            $('#fun').html(myArray[22]);
-            $('#funhex').html(myArray[23]);
-            $('#same1n').html(myArray[24]);
-            $('#same2n').html(myArray[25]);
-            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
-            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
-            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
-            $('#funaddr1').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[35]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[36]+"'>" +myArray[36]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[37]+"'>" +myArray[37]+"</a>");
-            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
-        })
-        $('#arrow_num').attr('dec', (bigNum + point_coefficient) % N);
-        var set_style = parseInt($('#arrow_num').html());
-        $('*[num="'+(set_style)+'"]').attr('style',  'color:#DE3163;display:inline-block;width:450px;font-weight:bold;');
-        $('html, body').animate({scrollTop: $('*[num="'+(set_style)+'"]').offset().top}, 200);
-    }
-    else { 
-        $('#arrow_num').html(last); 
-    }
-})
-</script>""", "utf-8"))
             __class__.addresses.clear()
             __class__.balance_on_page = "False"
             __class__.foundling = ""
@@ -1416,8 +1004,7 @@ $('#arrow_right').click(function() {
                             __class__.next = __class__.num + __class__.stride                
                             if __class__.next > __class__.max:
                                  __class__.next = __class__.max
-                            __class__.random = __class__.RandomInteger(__class__.randomMin,__class__.randomMax)
-			
+                            __class__.random = __class__.RandomInteger(__class__.randomMin,__class__.randomMax)			
             self.wfile.write(bytes("""
 <!DOCTYPE html>
 <html>
@@ -1460,61 +1047,61 @@ input[type=text], select {width:640px;padding:8px 10px;margin: 2px 0;display: in
             self.wfile.write(bytes("<p style='color:brown;font-weight:bold;'>Current page increment for next = <span id='cur_inc'>" + str(__class__.stride) + "</span></p>", "utf-8"))
             self.wfile.write(bytes("<p style='color:brown;font-weight:bold;'>Current random range = <span id='rand_min'>" + str(__class__.randomMin) + "</span> - <span id='rand_max'>" + str(__class__.randomMax) + "</span></p>", "utf-8"))            
             self.wfile.write(bytes("<pre>", "utf-8"))
-            self.wfile.write(bytes("<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p255)+"'>2^255</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p254)+"'>2^254</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p253)+"'>2^253</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p252)+"'>2^252</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p251)+"'>2^251</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p250)+"'>2^250</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p249)+"'>2^249</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p248)+"'>2^248</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p247)+"'>2^247</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p246)+"'>2^246</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p245)+"'>2^245</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p244)+"'>2^244</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p243)+"'>2^243</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p242)+"'>2^242</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p241)+"'>2^241</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p240)+"'>2^240</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p239)+"'>2^239</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p238)+"'>2^238</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p237)+"'>2^237</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p236)+"'>2^236</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p235)+"'>2^235</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p234)+"'>2^234</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p233)+"'>2^233</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p232)+"'>2^232</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p231)+"'>2^231</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p230)+"'>2^230</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p229)+"'>2^229</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p228)+"'>2^228</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p227)+"'>2^227</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p226)+"'>2^226</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p225)+"'>2^225</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p224)+"'>2^224</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p223)+"'>2^223</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p222)+"'>2^222</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p221)+"'>2^221</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p220)+"'>2^220</a><br>", "utf-8"))
-            self.wfile.write(bytes("<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p219)+"'>2^219</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p218)+"'>2^218</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p217)+"'>2^217</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p216)+"'>2^216</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p215)+"'>2^215</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p214)+"'>2^214</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p213)+"'>2^213</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p212)+"'>2^212</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p211)+"'>2^211</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p210)+"'>2^210</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p209)+"'>2^209</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p208)+"'>2^208</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p207)+"'>2^207</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p206)+"'>2^206</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p205)+"'>2^205</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p204)+"'>2^204</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p203)+"'>2^203</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p202)+"'>2^202</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p201)+"'>2^201</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p200)+"'>2^200</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p199)+"'>2^199</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p198)+"'>2^198</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p197)+"'>2^197</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p196)+"'>2^196</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p195)+"'>2^195</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p194)+"'>2^194</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p193)+"'>2^193</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p192)+"'>2^192</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p191)+"'>2^191</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p190)+"'>2^190</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p189)+"'>2^189</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p188)+"'>2^188</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p187)+"'>2^187</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p186)+"'>2^186</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p185)+"'>2^185</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p184)+"'>2^184</a><br>", "utf-8"))
-            self.wfile.write(bytes("<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p183)+"'>2^183</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p182)+"'>2^182</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p181)+"'>2^181</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p180)+"'>2^180</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p179)+"'>2^179</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p178)+"'>2^178</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p177)+"'>2^177</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p176)+"'>2^176</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p175)+"'>2^175</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p174)+"'>2^174</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p173)+"'>2^173</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p172)+"'>2^172</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p171)+"'>2^171</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p170)+"'>2^170</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p169)+"'>2^169</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p168)+"'>2^168</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p167)+"'>2^167</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p166)+"'>2^166</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p165)+"'>2^165</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p164)+"'>2^164</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p163)+"'>2^163</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p162)+"'>2^162</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p161)+"'>2^161</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p160)+"'>2^160</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p159)+"'>2^159</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p158)+"'>2^158</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p157)+"'>2^157</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p156)+"'>2^156</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p155)+"'>2^155</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p154)+"'>2^154</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p153)+"'>2^153</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p152)+"'>2^152</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p151)+"'>2^151</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p150)+"'>2^150</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p149)+"'>2^149</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p148)+"'>2^148</a><br>", "utf-8"))
-            self.wfile.write(bytes("<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p147)+"'>2^147</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p146)+"'>2^146</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p145)+"'>2^145</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p144)+"'>2^144</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p143)+"'>2^143</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p142)+"'>2^142</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p141)+"'>2^141</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p140)+"'>2^140</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p139)+"'>2^139</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p138)+"'>2^138</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p137)+"'>2^137</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p136)+"'>2^136</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p135)+"'>2^135</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p134)+"'>2^134</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p133)+"'>2^133</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p132)+"'>2^132</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p131)+"'>2^131</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p130)+"'>2^130</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p129)+"'>2^129</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p128)+"'>2^128</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p127)+"'>2^127</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p126)+"'>2^126</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p125)+"'>2^125</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p124)+"'>2^124</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p123)+"'>2^123</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p122)+"'>2^122</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p121)+"'>2^121</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p120)+"'>2^120</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p119)+"'>2^119</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p118)+"'>2^118</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p117)+"'>2^117</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p116)+"'>2^116</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p115)+"'>2^115</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p114)+"'>2^114</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p113)+"'>2^113</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p112)+"'>2^112</a><br>", "utf-8"))
-            self.wfile.write(bytes("<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p111)+"'>2^111</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p110)+"'>2^110</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p109)+"'>2^109</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p108)+"'>2^108</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p107)+"'>2^107</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p106)+"'>2^106</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p105)+"'>2^105</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p104)+"'>2^104</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p103)+"'>2^103</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p102)+"'>2^102</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p101)+"'>2^101</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p100)+"'>2^100</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p99)+"'>2^99</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p98)+"'>2^98</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p97)+"'>2^97</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p96)+"'>2^96</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p95)+"'>2^95</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p94)+"'>2^94</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p93)+"'>2^93</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p92)+"'>2^92</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p91)+"'>2^91</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p90)+"'>2^90</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p89)+"'>2^89</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p88)+"'>2^88</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p87)+"'>2^87</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p86)+"'>2^86</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p85)+"'>2^85</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p84)+"'>2^84</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p83)+"'>2^83</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p82)+"'>2^82</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p81)+"'>2^81</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p82)+"'>2^82</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p81)+"'>2^81</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p80)+"'>2^80</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p79)+"'>2^79</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p78)+"'>2^78</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p77)+"'>2^77</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p76)+"'>2^76</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p75)+"'>2^75</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p74)+"'>2^74</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p73)+"'>2^73</a><br><a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p72)+"'>2^72</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p71)+"'>2^71</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p70)+"'>2^70</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p69)+"'>2^69</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p68)+"'>2^68</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p67)+"'>2^67</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p66)+"'>2^66</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p65)+"'>2^65</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p64)+"'>2^64</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p63)+"'>2^63</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p62)+"'>2^62</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p61)+"'>2^61</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p60)+"'>2^60</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p59)+"'>2^59</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p58)+"'>2^58</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p57)+"'>2^57</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p56)+"'>2^56</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p55)+"'>2^55</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p54)+"'>2^54</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p53)+"'>2^53</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p52)+"'>2^52</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p51)+"'>2^51</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p50)+"'>2^50</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p49)+"'>2^49</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p48)+"'>2^48</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p47)+"'>2^47</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p46)+"'>2^46</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p45)+"'>2^45</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p44)+"'>2^44</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p43)+"'>2^43</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p42)+"'>2^42</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p41)+"'>2^41</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p40)+"'>2^40</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p39)+"'>2^39</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p38)+"'>2^38</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p37)+"'>2^37</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p36)+"'>2^36</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p35)+"'>2^35</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p34)+"'>2^34</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p33)+"'>2^33</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p32)+"'>2^32</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p31)+"'>2^31</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p30)+"'>2^30</a><br>", "utf-8"))
-            self.wfile.write(bytes("<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p29)+"'>2^29</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p28)+"'>2^28</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p27)+"'>2^27</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p26)+"'>2^26</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p25)+"'>2^25</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p24)+"'>2^24</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p23)+"'>2^23</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p22)+"'>2^22</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p21)+"'>2^21</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p20)+"'>2^20</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p19)+"'>2^19</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p18)+"'>2^18</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p17)+"'>2^17</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p16)+"'>2^16</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p15)+"'>2^15</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p14)+"'>2^14</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p13)+"'>2^13</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p12)+"'>2^12</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p11)+"'>2^11</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p10)+"'>2^10</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p9)+"'>2^9</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p8)+"'>2^8</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p7)+"'>2^7</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p6)+"'>2^6</a>", "utf-8"))
-            self.wfile.write(bytes("|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p5)+"'>2^5</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p4)+"'>2^4</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p3)+"'>2^3</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p2)+"'>2^2</a>|<a style='color:blue;' class='ajax_pow2' page='/"+str(__class__.p1)+"'>2^1</a>", "utf-8"))
+            self.wfile.write(bytes("<a style='color:blue;' class='ajax' page='/"+str(__class__.p255)+"'>2^255</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p254)+"'>2^254</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p253)+"'>2^253</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p252)+"'>2^252</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p251)+"'>2^251</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p250)+"'>2^250</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p249)+"'>2^249</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p248)+"'>2^248</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p247)+"'>2^247</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p246)+"'>2^246</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p245)+"'>2^245</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p244)+"'>2^244</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p243)+"'>2^243</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p242)+"'>2^242</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p241)+"'>2^241</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p240)+"'>2^240</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p239)+"'>2^239</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p238)+"'>2^238</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p237)+"'>2^237</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p236)+"'>2^236</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p235)+"'>2^235</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p234)+"'>2^234</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p233)+"'>2^233</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p232)+"'>2^232</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p231)+"'>2^231</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p230)+"'>2^230</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p229)+"'>2^229</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p228)+"'>2^228</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p227)+"'>2^227</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p226)+"'>2^226</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p225)+"'>2^225</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p224)+"'>2^224</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p223)+"'>2^223</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p222)+"'>2^222</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p221)+"'>2^221</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p220)+"'>2^220</a><br>", "utf-8"))
+            self.wfile.write(bytes("<a style='color:blue;' class='ajax' page='/"+str(__class__.p219)+"'>2^219</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p218)+"'>2^218</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p217)+"'>2^217</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p216)+"'>2^216</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p215)+"'>2^215</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p214)+"'>2^214</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p213)+"'>2^213</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p212)+"'>2^212</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p211)+"'>2^211</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p210)+"'>2^210</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p209)+"'>2^209</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p208)+"'>2^208</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p207)+"'>2^207</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p206)+"'>2^206</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p205)+"'>2^205</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p204)+"'>2^204</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p203)+"'>2^203</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p202)+"'>2^202</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p201)+"'>2^201</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p200)+"'>2^200</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p199)+"'>2^199</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p198)+"'>2^198</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p197)+"'>2^197</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p196)+"'>2^196</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p195)+"'>2^195</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p194)+"'>2^194</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p193)+"'>2^193</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p192)+"'>2^192</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p191)+"'>2^191</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p190)+"'>2^190</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p189)+"'>2^189</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p188)+"'>2^188</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p187)+"'>2^187</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p186)+"'>2^186</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p185)+"'>2^185</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p184)+"'>2^184</a><br>", "utf-8"))
+            self.wfile.write(bytes("<a style='color:blue;' class='ajax' page='/"+str(__class__.p183)+"'>2^183</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p182)+"'>2^182</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p181)+"'>2^181</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p180)+"'>2^180</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p179)+"'>2^179</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p178)+"'>2^178</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p177)+"'>2^177</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p176)+"'>2^176</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p175)+"'>2^175</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p174)+"'>2^174</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p173)+"'>2^173</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p172)+"'>2^172</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p171)+"'>2^171</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p170)+"'>2^170</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p169)+"'>2^169</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p168)+"'>2^168</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p167)+"'>2^167</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p166)+"'>2^166</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p165)+"'>2^165</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p164)+"'>2^164</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p163)+"'>2^163</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p162)+"'>2^162</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p161)+"'>2^161</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p160)+"'>2^160</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p159)+"'>2^159</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p158)+"'>2^158</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p157)+"'>2^157</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p156)+"'>2^156</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p155)+"'>2^155</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p154)+"'>2^154</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p153)+"'>2^153</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p152)+"'>2^152</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p151)+"'>2^151</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p150)+"'>2^150</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p149)+"'>2^149</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p148)+"'>2^148</a><br>", "utf-8"))
+            self.wfile.write(bytes("<a style='color:blue;' class='ajax' page='/"+str(__class__.p147)+"'>2^147</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p146)+"'>2^146</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p145)+"'>2^145</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p144)+"'>2^144</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p143)+"'>2^143</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p142)+"'>2^142</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p141)+"'>2^141</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p140)+"'>2^140</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p139)+"'>2^139</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p138)+"'>2^138</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p137)+"'>2^137</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p136)+"'>2^136</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p135)+"'>2^135</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p134)+"'>2^134</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p133)+"'>2^133</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p132)+"'>2^132</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p131)+"'>2^131</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p130)+"'>2^130</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p129)+"'>2^129</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p128)+"'>2^128</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p127)+"'>2^127</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p126)+"'>2^126</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p125)+"'>2^125</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p124)+"'>2^124</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p123)+"'>2^123</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p122)+"'>2^122</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p121)+"'>2^121</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p120)+"'>2^120</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p119)+"'>2^119</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p118)+"'>2^118</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p117)+"'>2^117</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p116)+"'>2^116</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p115)+"'>2^115</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p114)+"'>2^114</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p113)+"'>2^113</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p112)+"'>2^112</a><br>", "utf-8"))
+            self.wfile.write(bytes("<a style='color:blue;' class='ajax' page='/"+str(__class__.p111)+"'>2^111</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p110)+"'>2^110</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p109)+"'>2^109</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p108)+"'>2^108</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p107)+"'>2^107</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p106)+"'>2^106</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p105)+"'>2^105</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p104)+"'>2^104</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p103)+"'>2^103</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p102)+"'>2^102</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p101)+"'>2^101</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p100)+"'>2^100</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p99)+"'>2^99</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p98)+"'>2^98</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p97)+"'>2^97</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p96)+"'>2^96</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p95)+"'>2^95</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p94)+"'>2^94</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p93)+"'>2^93</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p92)+"'>2^92</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p91)+"'>2^91</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p90)+"'>2^90</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p89)+"'>2^89</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p88)+"'>2^88</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p87)+"'>2^87</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p86)+"'>2^86</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p85)+"'>2^85</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p84)+"'>2^84</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p83)+"'>2^83</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p82)+"'>2^82</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p81)+"'>2^81</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p82)+"'>2^82</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p81)+"'>2^81</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p80)+"'>2^80</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p79)+"'>2^79</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p78)+"'>2^78</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p77)+"'>2^77</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p76)+"'>2^76</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p75)+"'>2^75</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p74)+"'>2^74</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p73)+"'>2^73</a><br><a style='color:blue;' class='ajax' page='/"+str(__class__.p72)+"'>2^72</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p71)+"'>2^71</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p70)+"'>2^70</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p69)+"'>2^69</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p68)+"'>2^68</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p67)+"'>2^67</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p66)+"'>2^66</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p65)+"'>2^65</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p64)+"'>2^64</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p63)+"'>2^63</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p62)+"'>2^62</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p61)+"'>2^61</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p60)+"'>2^60</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p59)+"'>2^59</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p58)+"'>2^58</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p57)+"'>2^57</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p56)+"'>2^56</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p55)+"'>2^55</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p54)+"'>2^54</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p53)+"'>2^53</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p52)+"'>2^52</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p51)+"'>2^51</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p50)+"'>2^50</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p49)+"'>2^49</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p48)+"'>2^48</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p47)+"'>2^47</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p46)+"'>2^46</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p45)+"'>2^45</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p44)+"'>2^44</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p43)+"'>2^43</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p42)+"'>2^42</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p41)+"'>2^41</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p40)+"'>2^40</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p39)+"'>2^39</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p38)+"'>2^38</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p37)+"'>2^37</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p36)+"'>2^36</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p35)+"'>2^35</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p34)+"'>2^34</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p33)+"'>2^33</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p32)+"'>2^32</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p31)+"'>2^31</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p30)+"'>2^30</a><br>", "utf-8"))
+            self.wfile.write(bytes("<a style='color:blue;' class='ajax' page='/"+str(__class__.p29)+"'>2^29</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p28)+"'>2^28</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p27)+"'>2^27</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p26)+"'>2^26</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p25)+"'>2^25</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p24)+"'>2^24</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p23)+"'>2^23</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p22)+"'>2^22</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p21)+"'>2^21</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p20)+"'>2^20</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p19)+"'>2^19</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p18)+"'>2^18</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p17)+"'>2^17</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p16)+"'>2^16</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p15)+"'>2^15</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p14)+"'>2^14</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p13)+"'>2^13</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p12)+"'>2^12</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p11)+"'>2^11</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p10)+"'>2^10</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p9)+"'>2^9</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p8)+"'>2^8</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p7)+"'>2^7</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p6)+"'>2^6</a>", "utf-8"))
+            self.wfile.write(bytes("|<a style='color:blue;' class='ajax' page='/"+str(__class__.p5)+"'>2^5</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p4)+"'>2^4</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p3)+"'>2^3</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p2)+"'>2^2</a>|<a style='color:blue;' class='ajax' page='/"+str(__class__.p1)+"'>2^1</a>", "utf-8"))
             self.wfile.write(bytes("</pre>", "utf-8"))
             self.wfile.write(bytes("<pre class='keys'>", "utf-8"))
-            self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.hj)+"'>5H(end)-5J(start)</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.jk)+"'>5J(end)-5K(start)</span>&nbsp;]&nbsp;&nbsp;&nbsp;<=>&nbsp;&nbsp;&nbsp;", "utf-8"))
-            self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.Kx)+"'>Kw(end)_Kx(start)</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.Ky)+"'>Kx(end)_Ky(start)</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.Kz)+"'>Ky(end)_Kz(start)</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.L1)+"'>Kz(end)-L1(start)</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.L2)+"'>L1(end)_L2(start)</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.L3)+"'>L2(end)_L3(start)</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.L4)+"'>L3(end)_L4(start)</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.L5)+"'>L4(end)_L5(start)</span>&nbsp;]", "utf-8"))
+            self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.hj)+"'>5H(end)-5J(start)</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.jk)+"'>5J(end)-5K(start)</span>&nbsp;]&nbsp;&nbsp;&nbsp;<=>&nbsp;&nbsp;&nbsp;", "utf-8"))
+            self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.Kx)+"'>Kw(end)_Kx(start)</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.Ky)+"'>Kx(end)_Ky(start)</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.Kz)+"'>Ky(end)_Kz(start)</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.L1)+"'>Kz(end)-L1(start)</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.L2)+"'>L1(end)_L2(start)</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.L3)+"'>L2(end)_L3(start)</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.L4)+"'>L3(end)_L4(start)</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.L5)+"'>L4(end)_L5(start)</span>&nbsp;]", "utf-8"))
             self.wfile.write(bytes("</pre>", "utf-8"))
             self.wfile.write(bytes("""
 <div id='auto' style='padding-bottom:3px;'> 
@@ -1538,6 +1125,8 @@ Pages checked:&nbsp;<span id='p_checked_pilot_seq'>0</span> &nbsp;&nbsp;Total ad
             """, "utf-8"))
             self.wfile.write(bytes("""
 <script>
+var auto_speed = 480
+var pilot_speed = 250
 var page_number = BigInt(0);
 var checked_pages = BigInt(0);
 var increment = BigInt(0);
@@ -1589,8 +1178,7 @@ function generateRandomBigInt(lowBigInt, highBigInt) {
 }
 function rolling(){                
     numPage = generateRandomBigInt(RandomMin,RandomMax);
-    $.get("http://localhost:3333/A"+numPage, function(data){
-        checked_pages++;
+    $.get("http://localhost:3333/A"+numPage, function(data){        
         $('#main_content').html(data);
         history.pushState({}, null, "http://localhost:3333/"+numPage);
         f_num = parseInt($('#found_num').html()); 
@@ -1606,10 +1194,11 @@ function rolling(){
             $('#found_num').html(f_num); 
         }
     })
+    checked_pages++;
     $('#p_checked').html(checked_pages);
 }
 $('#start_auto').click(function() {
-    play_random = setInterval("rolling()",500);  
+    play_random = setInterval("rolling()", auto_speed);
     $(this).hide();
     $('#stop_auto').show();      
     checked_pages = 0;
@@ -1621,7 +1210,7 @@ $('#start_auto').click(function() {
     $('#search_line').prop('disabled', true);
     $('#p_checked').html("0");
     $('#found_num').html("0");        
-    $('#status_str').show(); 
+    $('#status_str').show();
 })
 $('#stop_auto').click(function() {
     clearInterval(play_random);                    
@@ -1669,6 +1258,7 @@ function sequence() {
     $('#p_checked_seq').html(checked_pages);                                              
 }
 $('#start_auto_seq').click(function() {
+    play_sequence = setInterval("sequence()", auto_speed);
     $(this).hide();
     $('#stop_auto_seq').show();
     checked_pages = 0;
@@ -1680,8 +1270,7 @@ $('#start_auto_seq').click(function() {
     $('#search_line').prop('disabled', true);               
     $('#p_checked_seq').html("0");
     $('#found_num_seq').html("0");
-    $('#status_str_seq').show();
-    play_sequence = setInterval("sequence()",500); 
+    $('#status_str_seq').show();     
 })
 $('#stop_auto_seq').click(function() {
     clearInterval(play_sequence);    
@@ -1713,6 +1302,7 @@ function pilot(){
     $('#t_scanned_pilot').html((checked_pages *256));
 }
 $('#start_auto_pilot').click(function() {
+    play_pilot = setInterval("pilot()", pilot_speed);
     RandomMin = BigInt($('#rand_min').html())
     RandomMax = BigInt($('#rand_max').html())
     $('#start_auto').prop('disabled', true);
@@ -1725,7 +1315,6 @@ $('#start_auto_pilot').click(function() {
     $('#status_str_pilot').show();
     $(this).hide();
     $('#stop_auto_pilot').show();
-    play_pilot = setInterval("pilot()",250);
 })
 $('#stop_auto_pilot').click(function() {
     clearInterval(play_pilot);
@@ -1770,6 +1359,7 @@ function pilot_sequence() {
     $('#pilot_page_seq_num').html(page_number);                                              
 }
 $('#start_auto_pilot_seq').click(function() {
+    play_pilot_sequence = setInterval("pilot_sequence()", pilot_speed);
     $(this).hide();
     $('#stop_auto_pilot_seq').show();
     checked_pages = 0;
@@ -1782,7 +1372,6 @@ $('#start_auto_pilot_seq').click(function() {
     $('#found_num_pilot_seq').html("0");
     $('#t_scanned_pilot_seq').html("0");
     $('#status_str_pilot_seq').show();
-    play_pilot_sequence = setInterval("pilot_sequence()",250); 
 })
 $('#stop_auto_pilot_seq').click(function() {
     clearInterval(play_pilot_sequence);
@@ -1793,16 +1382,7 @@ $('#stop_auto_pilot_seq').click(function() {
     $('#start_auto_pilot_seq').show();    
     $('#status_str_pilot_seq').fadeOut(1000);                               
 })
-$('.ajax_pow2').click(function() { 
-    var pnum = $(this).attr('page');
-    pnum = pnum.substring(1);
-    $.get("http://localhost:3333/A"+pnum, function(data, status){
-        $('#main_content').html(data)
-        history.pushState({}, null, "http://localhost:3333/"+pnum); 
-    })
-})
 </script>""", "utf-8"))
-            self.wfile.write(bytes("<div id='main_content'>", "utf-8"))
             self.wfile.write(bytes("""
 <div class='overlay_popup'></div>
 <div class='popup' id='popup1'>
@@ -1841,23 +1421,20 @@ $('.ajax_pow2').click(function() {
 <p id='same2addr' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
 <p id='same2addrpb' style='color:blue;background:#D7DBDD;padding:3px;font-weight:bold;font-size: 12px;'></p>
 </div></div>""", "utf-8"))
-            ###-------------------------------------------------------------------------------
+            self.wfile.write(bytes("<div id='main_content'>", "utf-8"))
             __class__.startPrivKey = (__class__.num - 1) * 128+1
             __class__.random5H = __class__.RandomInteger(__class__.rndMin,__class__.hj)
             __class__.random5J = __class__.RandomInteger(__class__.hj,__class__.jk)
-            __class__.random5K = __class__.RandomInteger(__class__.jk,__class__.rndMax)
-             
+            __class__.random5K = __class__.RandomInteger(__class__.jk,__class__.rndMax)             
             __class__.randomKw = __class__.RandomInteger(__class__.rndMin,__class__.Kx)
             __class__.randomKx = __class__.RandomInteger(__class__.Kx,__class__.Ky)
             __class__.randomKy = __class__.RandomInteger(__class__.Ky,__class__.Kz)
-            __class__.randomKz = __class__.RandomInteger(__class__.Kz,__class__.L1)
-            
+            __class__.randomKz = __class__.RandomInteger(__class__.Kz,__class__.L1)            
             __class__.randomL1 = __class__.RandomInteger(__class__.L1,__class__.L2) 
             __class__.randomL2 = __class__.RandomInteger(__class__.L2,__class__.L3)
             __class__.randomL3 = __class__.RandomInteger(__class__.L3,__class__.L4)
             __class__.randomL4 = __class__.RandomInteger(__class__.L4,__class__.L5)
-            __class__.randomL5 = __class__.RandomInteger(__class__.L5,__class__.rndMax)
-            #_________________________________________________________________________________                             
+            __class__.randomL5 = __class__.RandomInteger(__class__.L5,__class__.rndMax)                                        
             self.wfile.write(bytes("<h3><span style='color:#145A32;background-color:#f2f3f4;padding:2px;border-radius: 2px;'>Page #</span> <span id='current_page' style='color: #145A32;padding:2px;background-color:#f2f3f4;border-radius: 2px;'>"+str(__class__.num)+"</span> <span style='color:#145A32;'><< out of >></span> <span style='color:#145A32;padding:2px;background-color:#f2f3f4;border-radius: 2px;'>904625697166532776746648320380374280100293470930272690489102837043110636675</span></h3>", "utf-8"))
             self.wfile.write(bytes("<pre class='keys'>[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.previous)+"'>previous</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.next)+"'>next</span> | ", "utf-8"))
@@ -1865,8 +1442,7 @@ $('.ajax_pow2').click(function() {
             self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.first)+"'>first</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.middle)+"'>middle</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.max)+"'>last</span>&nbsp;]", "utf-8"))
-            self.wfile.write(bytes("</pre>", "utf-8"))
-            
+            self.wfile.write(bytes("</pre>", "utf-8"))            
             self.wfile.write(bytes("<pre class='keys'>", "utf-8"))
             self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.random5H)+"'>5H_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random5J)+"'>5J_random</span> | ", "utf-8"))
@@ -1880,19 +1456,16 @@ $('.ajax_pow2').click(function() {
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL3)+"'>L3_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL4)+"'>L4_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL5)+"'>L5_random</span>&nbsp;]", "utf-8"))
-            self.wfile.write(bytes("</pre>", "utf-8"))
-           
+            self.wfile.write(bytes("</pre>", "utf-8"))           
             __class__.starting_key_hex = hex((__class__.startPrivKey*Point_Coefficient)%N)[2:].zfill(64)
             if __class__.startPrivKey == 115792089237316195423570985008687907852837564279074904382605163141518161494273:
                 __class__.ending_key_hex = hex((__class__.startPrivKey*Point_Coefficient+63*Point_Coefficient)%N)[2:].zfill(64)
             else:
                 __class__.ending_key_hex = hex((__class__.startPrivKey*Point_Coefficient+127*Point_Coefficient)%N)[2:].zfill(64)
-
             self.wfile.write(bytes("<p style='color:gray;font-weight:bold;'>*Starting Private Key Hex: " + str(__class__.starting_key_hex) + "</p>", "utf-8"))
             self.wfile.write(bytes("<p style='color:gray;font-weight:bold;'>**Ending Private Key Hex: " + str(__class__.ending_key_hex) + "</p>", "utf-8"))
             self.wfile.write(bytes("<p id='balance' style='color:#9A2A2A;font-weight:bold;'>Balance on this Page: False</p>", "utf-8"))
             self.wfile.write(bytes("<pre class='keys'><strong style='display:inline-block;width:444px;text-align:center;'>Private Key Hex</strong><strong style='display:inline-block;width:360px;text-align:center;'>WIF Private Key Uncompressed</strong><strong style='display:inline-block;width:242px;text-align:center;'>Legacy Uncompressed Address</strong><strong style='display:inline-block;width:242px;text-align:center;'>Legacy Compressed Address</strong><strong style='display:inline-block;width:244px;text-align:center;'>Segwit P2SH Address</strong><strong style='display:inline-block;width:298px;text-align:center;'>Bech32 P2WPKH Address</strong><strong style='display:inline-block;width:436px;text-align:center;'>Bech32 P2WSH Address</strong><strong style='display:inline-block;width:368px;text-align:center;'>WIF Private Key Compressed</strong><br>", "utf-8"))
-
             for i in range(128):
                 pub = ice.point_multiplication(__class__.startPrivKey,G).hex()
                 dec = int((__class__.startPrivKey*Point_Coefficient)%N)
@@ -1922,7 +1495,6 @@ $('.ajax_pow2').click(function() {
                 if __class__.startPrivKey == 115792089237316195423570985008687907852837564279074904382605163141518161494336:
                      break
                 __class__.startPrivKey += 1
-
             for addr in __class__.addresses:
                 if __class__.bloom.lookup_mm(addr):
                     __class__.balance_on_page = "True"
@@ -1931,9 +1503,8 @@ $('.ajax_pow2').click(function() {
                         f.write(f"Bitcoin Address: {addr} Page# {__class__.num} \n")
             if __class__.balance_on_page == "True":
                 mixer.init()
-                mixer.music.load("success.mp3")
+                mixer.music.load(found_sound)
                 mixer.music.play()
-
             self.wfile.write(bytes("</pre><pre class='keys'>[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.previous)+"'>previous</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.next)+"'>next</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random)+"'>random</span>&nbsp;]", "utf-8"))
@@ -1941,10 +1512,9 @@ $('.ajax_pow2').click(function() {
             self.wfile.write(bytes("<p style='color:#9A2A2A;font-weight:bold;'>Balance on this Page: " + __class__.balance_on_page + " " + __class__.foundling + "</p>", "utf-8"))
             self.wfile.write(bytes("<script>var elem = document.getElementById('balance');elem.innerHTML = 'Balance on this Page: " + __class__.balance_on_page + " " + __class__.foundling + "'</script>", "utf-8"))
             self.wfile.write(bytes("</div>", "utf-8"))
-            #----------handle using jquery(modal popup  - ajax requests send - forward backward on modal window)-------------------------------------
             self.wfile.write(bytes("""
 <script>
-$('.ajax').click(function() { 
+$(document).on('click', '.ajax', function() { 
     var pnum = $(this).attr('page');
     pnum = pnum.substring(1);
     $.get("http://localhost:3333/A"+pnum, function(data, status){
@@ -1956,11 +1526,8 @@ $(function() {
     $('#up').click(function(){
         $('html,body').animate({scrollTop:0},400);
     });    
-})         
-</script>""", "utf-8"))
-            self.wfile.write(bytes("""
-<script>
-$('.show_popup').click(function() {
+})
+$(document).on('click', '.show_popup', function() {
     var path = window.location.pathname;
     if(path == '/904625697166532776746648320380374280100293470930272690489102837043110636675') { $('#all_num').html(64); }           
     var val = $(this).attr('value');
@@ -2003,11 +1570,10 @@ $('.show_popup').click(function() {
     $('.overlay_popup').show();
     $(this).attr('style',  'color:#DE3163;display:inline-block;width:450px;font-weight:bold;');
 })
-$('.overlay_popup').click(function() {
+$(document).on('click', '.overlay_popup', function() {
     $('.overlay_popup, .popup').hide();
 })
-
-$('#arrow_left').click(function() {
+$(document).on('click', '#arrow_left', function() {
     var item_num = parseInt($('#arrow_num').html());
     if(item_num > 1) { 
         $('#arrow_num').html(item_num - 1);
@@ -2056,7 +1622,7 @@ $('#arrow_left').click(function() {
         $('#arrow_num').html(item_num); 
     }
 })
-$('#arrow_right').click(function() {
+$(document).on('click', '#arrow_right', function() {
     var last = 128;
     var path = window.location.pathname;
     if(path == '/904625697166532776746648320380374280100293470930272690489102837043110636675') { last = 64; $('#all_num').html(64); }
