@@ -748,8 +748,8 @@ class WebServer(BaseHTTPRequestHandler):
             self.wfile.write(bytes("[&nbsp;<span class='ajax' style='color:blue;' page='/"+str(__class__.randomKw)+"'>Kw_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomKx)+"'>Kx_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomKy)+"'>Ky_random</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomKz)+"'>Kz_random</span>&nbsp;]&nbsp;&nbsp;&nbsp;<=>&nbsp;&nbsp;&nbsp;", "utf-8"))
-            self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL1)+"'>L1_random</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomKz)+"'>Kz_random</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL1)+"'>L1_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL2)+"'>L2_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL3)+"'>L3_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL4)+"'>L4_random</span> | ", "utf-8"))
@@ -847,11 +847,11 @@ $('.show_popup').click(function() {
         $('#funhex').html(myArray[23]);
         $('#same1n').html(myArray[24]);
         $('#same2n').html(myArray[25]);
-        $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
-        $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
-        $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
+        $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
+        $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
+        $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
         $('#funaddr1').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[35]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[36]+"'>" +myArray[36]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[37]+"'>" +myArray[37]+"</a>");
-        $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
+        $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
     })           
     var popup_id = $('#' + $(this).attr('rel'));
     $(popup_id).show();
@@ -901,11 +901,11 @@ $('#arrow_left').click(function() {
             $('#funhex').html(myArray[23]);
             $('#same1n').html(myArray[24]);
             $('#same2n').html(myArray[25]);
-            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
-            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
-            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
+            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
+            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
+            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
             $('#funaddr1').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[35]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[36]+"'>" +myArray[36]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[37]+"'>" +myArray[37]+"</a>");
-            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
+            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
         })
         var j = (bigNum - point_coefficient) % N
         if (j < 0) { j = j < 0n ? -j : j; j = N - j;$('#arrow_num').attr('dec', j); }
@@ -951,11 +951,11 @@ $('#arrow_right').click(function() {
             $('#funhex').html(myArray[23]);
             $('#same1n').html(myArray[24]);
             $('#same2n').html(myArray[25]);
-            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
-            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
-            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
+            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
+            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
+            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
             $('#funaddr1').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[35]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[36]+"'>" +myArray[36]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[37]+"'>" +myArray[37]+"</a>");
-            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
+            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
         })
         $('#arrow_num').attr('dec', (bigNum + point_coefficient) % N);
         var set_style = parseInt($('#arrow_num').html());
@@ -1054,8 +1054,8 @@ $('#arrow_right').click(function() {
             self.wfile.write(bytes("[&nbsp;<span class='ajax' style='color:blue;' page='/"+str(__class__.randomKw)+"'>Kw_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomKx)+"'>Kx_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomKy)+"'>Ky_random</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomKz)+"'>Kz_random</span>&nbsp;]&nbsp;&nbsp;&nbsp;<=>&nbsp;&nbsp;&nbsp;", "utf-8"))
-            self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL1)+"'>L1_random</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomKz)+"'>Kz_random</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL1)+"'>L1_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL2)+"'>L2_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL3)+"'>L3_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL4)+"'>L4_random</span> | ", "utf-8"))
@@ -1159,11 +1159,11 @@ $('.show_popup').click(function() {
         $('#funhex').html(myArray[23]);
         $('#same1n').html(myArray[24]);
         $('#same2n').html(myArray[25]);
-        $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
-        $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
-        $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
+        $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
+        $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
+        $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
         $('#funaddr1').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[35]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[36]+"'>" +myArray[36]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[37]+"'>" +myArray[37]+"</a>");
-        $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
+        $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
     })           
     var popup_id = $('#' + $(this).attr('rel'));
     $(popup_id).show();
@@ -1206,11 +1206,11 @@ $('#arrow_left').click(function() {
             $('#funhex').html(myArray[23]);
             $('#same1n').html(myArray[24]);
             $('#same2n').html(myArray[25]);
-            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
-            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
-            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
+            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
+            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
+            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
             $('#funaddr1').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[35]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[36]+"'>" +myArray[36]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[37]+"'>" +myArray[37]+"</a>");
-            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
+            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
         })
         var j = (bigNum - point_coefficient) % N
         if (j < 0) { j = j < 0n ? -j : j; j = N - j;$('#arrow_num').attr('dec', j); }
@@ -1256,11 +1256,11 @@ $('#arrow_right').click(function() {
             $('#funhex').html(myArray[23]);
             $('#same1n').html(myArray[24]);
             $('#same2n').html(myArray[25]);
-            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
-            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
-            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
+            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
+            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
+            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
             $('#funaddr1').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[35]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[36]+"'>" +myArray[36]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[37]+"'>" +myArray[37]+"</a>");
-            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
+            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
         })
         $('#arrow_num').attr('dec', (bigNum + point_coefficient) % N);
         var set_style = parseInt($('#arrow_num').html());
@@ -1509,8 +1509,8 @@ input[type=text], select {width:640px;padding:8px 10px;margin: 2px 0;display: in
             self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.jk)+"'>5J(end)-5K(start)</span>&nbsp;]&nbsp;&nbsp;&nbsp;<=>&nbsp;&nbsp;&nbsp;", "utf-8"))
             self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.Kx)+"'>Kw(end)_Kx(start)</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.Ky)+"'>Kx(end)_Ky(start)</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.Kz)+"'>Ky(end)_Kz(start)</span>&nbsp;]&nbsp;&nbsp;&nbsp;<=>&nbsp;&nbsp;&nbsp;", "utf-8"))
-            self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.L1)+"'>Kz(end)-L1(start)</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.Kz)+"'>Ky(end)_Kz(start)</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.L1)+"'>Kz(end)-L1(start)</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.L2)+"'>L1(end)_L2(start)</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.L3)+"'>L2(end)_L3(start)</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax_pow2' page='/"+str(__class__.L4)+"'>L3(end)_L4(start)</span> | ", "utf-8"))
@@ -1874,8 +1874,8 @@ $('.ajax_pow2').click(function() {
             self.wfile.write(bytes("[&nbsp;<span class='ajax' style='color:blue;' page='/"+str(__class__.randomKw)+"'>Kw_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomKx)+"'>Kx_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomKy)+"'>Ky_random</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomKz)+"'>Kz_random</span>&nbsp;]&nbsp;&nbsp;&nbsp;<=>&nbsp;&nbsp;&nbsp;", "utf-8"))
-            self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL1)+"'>L1_random</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomKz)+"'>Kz_random</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL1)+"'>L1_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL2)+"'>L2_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL3)+"'>L3_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL4)+"'>L4_random</span> | ", "utf-8"))
@@ -1992,11 +1992,11 @@ $('.show_popup').click(function() {
         $('#funhex').html(myArray[23]);
         $('#same1n').html(myArray[24]);
         $('#same2n').html(myArray[25]);
-        $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
-        $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
-        $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
+        $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
+        $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
+        $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
         $('#funaddr1').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[35]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[36]+"'>" +myArray[36]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[37]+"'>" +myArray[37]+"</a>");
-        $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
+        $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
     })            
     var popup_id = $('#' + $(this).attr('rel'));
     $(popup_id).show();
@@ -2039,11 +2039,11 @@ $('#arrow_left').click(function() {
             $('#funhex').html(myArray[23]);
             $('#same1n').html(myArray[24]);
             $('#same2n').html(myArray[25]);
-            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
-            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
-            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
+            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
+            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
+            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
             $('#funaddr1').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[35]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[36]+"'>" +myArray[36]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[37]+"'>" +myArray[37]+"</a>");
-            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
+            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
         })
         var j = (bigNum - point_coefficient) % N
         if (j < 0) { j = j < 0n ? -j : j; j = N - j;$('#arrow_num').attr('dec', j); }
@@ -2089,11 +2089,11 @@ $('#arrow_right').click(function() {
             $('#funhex').html(myArray[23]);
             $('#same1n').html(myArray[24]);
             $('#same2n').html(myArray[25]);
-            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
-            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
-            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
+            $('#addrinvpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[26]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[27]+"'>" +myArray[27]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[28]+"'>" +myArray[28]+"</a>");
+            $('#same1addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[29]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[30]+"'>" +myArray[30]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[31]+"'>" +myArray[31]+"</a>");
+            $('#same2addrpb').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[32]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[33]+"'>" +myArray[33]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[34]+"'>" +myArray[34]+"</a>");
             $('#funaddr1').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[35]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[36]+"'>" +myArray[36]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[37]+"'>" +myArray[37]+"</a>");
-            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;U: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;C: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
+            $('#funaddr2').html("<span style='color:brown;font-weight:bold;'>B:"+myArray[38]+"</span>&nbsp;&nbsp;P: <a target='_blank'  href='https://www.blockchain.com/btc/address/"+myArray[39]+"'>" +myArray[39]+ "</a>&nbsp;&nbsp;B: <a target='_blank' href='https://www.blockchain.com/btc/address/"+myArray[40]+"'>" +myArray[40]+"</a>");
         })
         $('#arrow_num').attr('dec', (bigNum + point_coefficient) % N);
         var set_style = parseInt($('#arrow_num').html());
