@@ -13,7 +13,7 @@ from bloomfilter import *
 
 hostName = "localhost"
 serverPort = 3333
-version = "v5.1.3"
+version = "v5.1.4"
 found_sound = 'success.mp3'
 
 N = 115792089237316195423570985008687907852837564279074904382605163141518161494337
@@ -79,7 +79,7 @@ class WebServer(BaseHTTPRequestHandler):
     num=startPrivKey=random=random5H=random5J=random5K=0
     randomKw=randomKx=randomKy=randomKz=0
     randomL1=randomL2=randomL3=randomL4=randomL5=0
-    previous=next= 0
+    previous=next=0
     max = 904625697166532776746648320380374280100293470930272690489102837043110636675
     middle = 452312848583266388373324160190187140050146735465136345244551418521555318338 
     hj = 85966769946697919304477156997851416897897452779964215616135418886216209408
@@ -504,8 +504,7 @@ class WebServer(BaseHTTPRequestHandler):
 #---------End for AJAX modal windows---------------------------------------------------------------------------------------------
         elif str_url.startswith("P"): #Pilot mode
             addresses = list()
-            str_url = self.path[2:]
-            page_num = int(str_url,10)               
+            page_num = int(self.path[2:],10)               
             startPrivKey = (page_num - 1) * 128+1
             for i in range(128):
                 pub = ice.point_multiplication(startPrivKey,G).hex()
@@ -530,7 +529,7 @@ class WebServer(BaseHTTPRequestHandler):
                 if __class__.bloom.lookup_mm(addr):
                     status = 'Yes'
                     with open("found.txt", "a", encoding="utf-8") as f:
-                        f.write(f"Bitcoin Address: {addr} Page# {page_num} \n") #saving if found: address page#
+                        f.write(f"Bitcoin Address: {addr} Page# {page_num} \n")
             if status == "Yes":
                 mixer.init()
                 mixer.music.load(found_sound)
@@ -693,10 +692,8 @@ class WebServer(BaseHTTPRequestHandler):
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random)+"'>random</span>&nbsp;]&nbsp;&nbsp;&nbsp;<=>&nbsp;&nbsp;&nbsp;", "utf-8"))
             self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.first)+"'>first</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.middle)+"'>middle</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.max)+"'>last</span>&nbsp;]", "utf-8"))
-            self.wfile.write(bytes("</pre>", "utf-8"))
-            self.wfile.write(bytes("<pre class='keys'>", "utf-8"))
-            self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.random5H)+"'>5H_random</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.max)+"'>last</span>&nbsp;]</pre>", "utf-8"))
+            self.wfile.write(bytes("<pre class='keys'>[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.random5H)+"'>5H_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random5J)+"'>5J_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random5K)+"'>5K_random</span>&nbsp;]&nbsp;&nbsp;&nbsp;<=>&nbsp;&nbsp;&nbsp;", "utf-8"))
             self.wfile.write(bytes("[&nbsp;<span class='ajax' style='color:blue;' page='/"+str(__class__.randomKw)+"'>Kw_random</span> | ", "utf-8"))
@@ -707,8 +704,7 @@ class WebServer(BaseHTTPRequestHandler):
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL2)+"'>L2_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL3)+"'>L3_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL4)+"'>L4_random</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL5)+"'>L5_random</span>&nbsp;]", "utf-8"))
-            self.wfile.write(bytes("</pre>", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL5)+"'>L5_random</span>&nbsp;]</pre>", "utf-8"))
             __class__.starting_key_hex = hex((__class__.startPrivKey*Point_Coefficient)%N)[2:].zfill(64)
             if __class__.startPrivKey == 115792089237316195423570985008687907852837564279074904382605163141518161494273:
                 __class__.ending_key_hex = hex((__class__.startPrivKey*Point_Coefficient+63*Point_Coefficient)%N)[2:].zfill(64)
@@ -759,8 +755,7 @@ class WebServer(BaseHTTPRequestHandler):
                 mixer.music.play()
             self.wfile.write(bytes("</pre><pre class='keys'>[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.previous)+"'>previous</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.next)+"'>next</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random)+"'>random</span>&nbsp;]", "utf-8"))
-            self.wfile.write(bytes("</pre>", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random)+"'>random</span>&nbsp;]</pre>", "utf-8"))
             self.wfile.write(bytes("<p style='color:#9A2A2A;font-weight:bold;'>Balance on this Page: " + __class__.balance_on_page + " " + __class__.foundling + "</p>", "utf-8"))
             self.wfile.write(bytes("<script>var elem = document.getElementById('balance');elem.innerHTML = 'Balance on this Page: " + __class__.balance_on_page + " " + __class__.foundling + "'</script>", "utf-8"))
             __class__.addresses.clear()         
@@ -768,8 +763,7 @@ class WebServer(BaseHTTPRequestHandler):
             __class__.foundling = ""
 #-------#--------Search Field End-----------------------------------------------------------
         elif str_url.startswith("A"): #AJAX Full Page Refresh     
-            str_url = self.path[2:]
-            __class__.num = int(str_url,10)
+            __class__.num = int(self.path[2:],10)
             __class__.previous = __class__.num - 1;
             if __class__.previous == 0:
                 __class__.previous = 1
@@ -796,10 +790,8 @@ class WebServer(BaseHTTPRequestHandler):
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random)+"'>random</span>&nbsp;]&nbsp;&nbsp;&nbsp;<=>&nbsp;&nbsp;&nbsp;", "utf-8"))
             self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.first)+"'>first</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.middle)+"'>middle</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.max)+"'>last</span>&nbsp;]", "utf-8"))
-            self.wfile.write(bytes("</pre>", "utf-8"))
-            self.wfile.write(bytes("<pre class='keys'>", "utf-8"))
-            self.wfile.write(bytes("[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.random5H)+"'>5H_random</span> | ", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.max)+"'>last</span>&nbsp;]</pre>", "utf-8"))
+            self.wfile.write(bytes("<pre class='keys'>[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.random5H)+"'>5H_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random5J)+"'>5J_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random5K)+"'>5K_random</span>&nbsp;]&nbsp;&nbsp;&nbsp;<=>&nbsp;&nbsp;&nbsp;", "utf-8"))
             self.wfile.write(bytes("[&nbsp;<span class='ajax' style='color:blue;' page='/"+str(__class__.randomKw)+"'>Kw_random</span> | ", "utf-8"))
@@ -810,8 +802,7 @@ class WebServer(BaseHTTPRequestHandler):
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL2)+"'>L2_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL3)+"'>L3_random</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL4)+"'>L4_random</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL5)+"'>L5_random</span>&nbsp;]", "utf-8"))
-            self.wfile.write(bytes("</pre>", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.randomL5)+"'>L5_random</span>&nbsp;]</pre>", "utf-8"))
             __class__.starting_key_hex = hex((__class__.startPrivKey*Point_Coefficient)%N)[2:].zfill(64)
             if __class__.startPrivKey == 115792089237316195423570985008687907852837564279074904382605163141518161494273:
                 __class__.ending_key_hex = hex((__class__.startPrivKey*Point_Coefficient+63*Point_Coefficient)%N)[2:].zfill(64)
@@ -856,8 +847,7 @@ class WebServer(BaseHTTPRequestHandler):
                 mixer.music.play()
             self.wfile.write(bytes("</pre><pre class='keys'>[&nbsp;<span style='color:blue;' class='ajax' page='/"+str(__class__.previous)+"'>previous</span> | ", "utf-8"))
             self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.next)+"'>next</span> | ", "utf-8"))
-            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random)+"'>random</span>&nbsp;]", "utf-8"))
-            self.wfile.write(bytes("</pre>", "utf-8"))
+            self.wfile.write(bytes("<span style='color:blue;' class='ajax' page='/"+str(__class__.random)+"'>random</span>&nbsp;]</pre>", "utf-8"))
             self.wfile.write(bytes("<p style='color:#9A2A2A;font-weight:bold;'>Balance on this Page: " + __class__.balance_on_page + " " + __class__.foundling + "</p>", "utf-8"))
             self.wfile.write(bytes("<script>var elem = document.getElementById('balance');elem.innerHTML = 'Balance on this Page: " + __class__.balance_on_page + " " + __class__.foundling + "'</script>", "utf-8"))
             __class__.addresses.clear()
@@ -1125,18 +1115,18 @@ Pages checked:&nbsp;<span id='p_checked_pilot_seq'>0</span> &nbsp;&nbsp;Total ad
             """, "utf-8"))
             self.wfile.write(bytes("""
 <script>
-var auto_speed = 480
-var pilot_speed = 250
+let auto_speed = 500
+let pilot_speed = 300
+let play_random = 0;
+let play_sequence = 0;
+let play_pilot = 0;
+let play_pilot_sequence = 0;
 var page_number = BigInt(0);
 var checked_pages = BigInt(0);
 var increment = BigInt(0);
 var RandomMin = BigInt(0);
 var RandomMax = BigInt(0);
 var numPage = BigInt(0);
-var play_random = 0;
-var play_sequence = 0;
-var play_pilot = 0;
-var play_pilot_sequence = 0;
 var difference = 0;
 var differenceLength = '';
 let multiplier = '';
@@ -1158,7 +1148,7 @@ $('#search_line').focus(function() {
 $('#search_line').blur(function() {
    var input_val = $('#search_line').val();
    $.get("http://localhost:3333/S"+ input_val.trim(), function(data, status){
-            $('#main_content').html(data);
+            document.getElementById("main_content").innerHTML = data;
             history.pushState({}, null, "http://localhost:3333/"+$('#current_page').html());
     })
 })
@@ -1179,37 +1169,35 @@ function generateRandomBigInt(lowBigInt, highBigInt) {
 function rolling(){                
     numPage = generateRandomBigInt(RandomMin,RandomMax);
     $.get("http://localhost:3333/A"+numPage, function(data){        
-        $('#main_content').html(data);
+        document.getElementById("main_content").innerHTML = data;
         history.pushState({}, null, "http://localhost:3333/"+numPage);
-        f_num = parseInt($('#found_num').html()); 
-        found_str = $('#balance').html();
+        f_num = parseInt(document.getElementById("found_num").innerHTML); 
+        found_str = document.getElementById("balance").innerHTML;
         if(found_str.includes("False") && f_num == 0 ) { 
-            $('#found_num').html("0"); 
+            document.getElementById("found_num").innerHTML = "0"; 
         }
         if(found_str.includes("False") && f_num > 0 ) {
-            $('#found_num').html(f_num);
+            document.getElementById("found_num").innerHTML = f_num;
         }
         if(found_str.includes("True")) {                    
-            f_num = f_num + 1;
-            $('#found_num').html(f_num); 
+            document.getElementById("found_num").innerHTML = f_num + 1; 
         }
     })
-    checked_pages++;
-    $('#p_checked').html(checked_pages);
+    document.getElementById("p_checked").innerHTML = ++checked_pages;
 }
 $('#start_auto').click(function() {
-    play_random = setInterval("rolling()", auto_speed);
+    play_random = setInterval(rolling, auto_speed);
     $(this).hide();
     $('#stop_auto').show();      
     checked_pages = 0;
-    RandomMin = BigInt($('#rand_min').html())
-    RandomMax = BigInt($('#rand_max').html())
+    RandomMin = BigInt(document.getElementById("rand_min").innerHTML)
+    RandomMax = BigInt(document.getElementById("rand_max").innerHTML)
     $('#start_auto_seq').prop('disabled', true);
     $('#start_auto_pilot').prop('disabled', true);
     $('#start_auto_pilot_seq').prop('disabled', true);
     $('#search_line').prop('disabled', true);
-    $('#p_checked').html("0");
-    $('#found_num').html("0");        
+    document.getElementById("p_checked").innerHTML = "0";
+    document.getElementById("found_num").innerHTML = "0";        
     $('#status_str').show();
 })
 $('#stop_auto').click(function() {
@@ -1238,27 +1226,25 @@ function sequence() {
     }
     else {
         $.get("http://localhost:3333/A"+ page_number, function(data, status){
-            $('#main_content').html(data);
+            document.getElementById("main_content").innerHTML = data;
             history.pushState({}, null, "http://localhost:3333/"+$('#current_page').html());
-            var f_num = parseInt($('#found_num_seq').html()); 
-            var found_str = $('#balance').html();                    
+            f_num = parseInt(document.getElementById("found_num_seq").innerHTM);             
+            found_str = document.getElementById("balance").innerHTM;                    
             if(found_str.includes("False") && f_num == 0 ) { 
-                $('#found_num_seq').html("0"); 
+                document.getElementById("found_num_seq").innerHTML = "0"; 
             }
             if(found_str.includes("False") && f_num > 0 ) {
-                $('#found_num_seq').html(f_num);
+                document.getElementById("found_num_seq").innerHTML = f_num;
             }
             if(found_str.includes("True")) {                    
-                f_num = f_num + 1;
-                $('#found_num_seq').html(f_num); 
+                document.getElementById("found_num_seq").innerHTML = f_num + 1;
             }
         })
     }
-    checked_pages++;
-    $('#p_checked_seq').html(checked_pages);                                              
+    $('#p_checked_seq').html(++checked_pages);                                              
 }
 $('#start_auto_seq').click(function() {
-    play_sequence = setInterval("sequence()", auto_speed);
+    play_sequence = setInterval(sequence, auto_speed);
     $(this).hide();
     $('#stop_auto_seq').show();
     checked_pages = 0;
@@ -1302,7 +1288,7 @@ function pilot(){
     $('#t_scanned_pilot').html((checked_pages *256));
 }
 $('#start_auto_pilot').click(function() {
-    play_pilot = setInterval("pilot()", pilot_speed);
+    play_pilot = setInterval(pilot, pilot_speed);
     RandomMin = BigInt($('#rand_min').html())
     RandomMax = BigInt($('#rand_max').html())
     $('#start_auto').prop('disabled', true);
@@ -1359,7 +1345,7 @@ function pilot_sequence() {
     $('#pilot_page_seq_num').html(page_number);                                              
 }
 $('#start_auto_pilot_seq').click(function() {
-    play_pilot_sequence = setInterval("pilot_sequence()", pilot_speed);
+    play_pilot_sequence = setInterval(pilot_sequence, pilot_speed);
     $(this).hide();
     $('#stop_auto_pilot_seq').show();
     checked_pages = 0;
@@ -1518,7 +1504,7 @@ $(document).on('click', '.ajax', function() {
     var pnum = $(this).attr('page');
     pnum = pnum.substring(1);
     $.get("http://localhost:3333/A"+pnum, function(data, status){
-        $('#main_content').html(data)
+        document.getElementById("main_content").innerHTML = data;
         history.pushState({}, null, "http://localhost:3333/"+pnum); 
     })
 })                                                                                
