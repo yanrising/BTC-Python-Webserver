@@ -13,7 +13,7 @@ from bloomfilter import *
 
 hostName = "localhost"
 serverPort = 3333
-version = "v5.1.4"
+version = "v5.1.5"
 found_sound = 'success.mp3'
 
 N = 115792089237316195423570985008687907852837564279074904382605163141518161494337
@@ -349,8 +349,8 @@ class WebServer(BaseHTTPRequestHandler):
     p254 = 226156424291633194186662080095093570025917938800079226639565593765455331329
     p255 = 452312848583266388373324160190187140051835877600158453279131187530910662657
 
-    idx1=idx2=idx3 = 0
-    privKey=privKey_C=bitAddr=bitAddr_C=searchKey=searchKey_U= "" #searchKey when we search for page by pasting privatekey hex in url localhost:3333/$fff 
+    idx1=idx2=idx3=0
+    privKey=privKey_C=bitAddr=bitAddr_C=searchKey=searchKey_U = "" #searchKey when we search for page by pasting privatekey hex in url localhost:3333/$fff 
     starting_key_hex=ending_key_hex = ""                                          #searchKeyU when we search for page by pasting privatekey decimal in url localhost:3333/@10985746
     privateKey = privateKey_C = ""
     publicKey = publicKey_C = ""
@@ -1121,19 +1121,20 @@ let play_random = 0;
 let play_sequence = 0;
 let play_pilot = 0;
 let play_pilot_sequence = 0;
-var page_number = BigInt(0);
-var checked_pages = BigInt(0);
-var increment = BigInt(0);
-var RandomMin = BigInt(0);
-var RandomMax = BigInt(0);
-var numPage = BigInt(0);
-var difference = 0;
-var differenceLength = '';
+let page_number = BigInt(0);
+let checked_pages = BigInt(0);
+let increment = BigInt(0);
+let RandomMin = BigInt(0);
+let RandomMax = BigInt(0);
+let numPage = BigInt(0);
+let difference = 0;
+let differenceLength = '';
 let multiplier = '';
-var divisor = '';
-var randomDifference = BigInt(0);
-var f_num = 0;
-var found_str = '';
+let divisor = '';
+let randomDifference = BigInt(0);
+let f_num = 0;
+let found_str = '';
+let status_str = '';
 $('#status_str').hide();
 $('#status_str_seq').hide();
 $('#status_str_pilot').hide();
@@ -1213,6 +1214,7 @@ $('#stop_auto').click(function() {
 function sequence() {
     page_number += increment;                
     if (page_number > BigInt("904625697166532776746648320380374280100293470930272690489102837043110636675")) {
+        clearInterval(play_sequence);
         $('#start_auto_seq').prop('disabled', false);
         $('#start_auto').prop('disabled', false);
         $('#start_auto_pilot').prop('disabled', false);
@@ -1221,7 +1223,6 @@ function sequence() {
         $('#start_auto_seq').show();
         $('#status_str_seq').fadeOut(1500);
         checked_pages = 0;
-        clearInterval(play_sequence);         
         return false;
     }
     else {
@@ -1248,14 +1249,14 @@ $('#start_auto_seq').click(function() {
     $(this).hide();
     $('#stop_auto_seq').show();
     checked_pages = 0;
-    page_number = BigInt($('#current_page').html());                
-    increment = BigInt($('#cur_inc').html());
+    page_number = BigInt(document.getElementById("current_page").innerHTML);                
+    increment = BigInt(document.getElementById("cur_inc").innerHTML);
     $('#start_auto').prop('disabled', true);
     $('#start_auto_pilot').prop('disabled', true);
     $('#start_auto_pilot_seq').prop('disabled', true);
     $('#search_line').prop('disabled', true);               
-    $('#p_checked_seq').html("0");
-    $('#found_num_seq').html("0");
+    document.getElementById("p_checked_seq").innerHTML = "0";
+    document.getElementById("found_num_seq").innerHTML = "0";
     $('#status_str_seq').show();     
 })
 $('#stop_auto_seq').click(function() {
@@ -1272,19 +1273,16 @@ $('#stop_auto_seq').click(function() {
 function pilot(){                
     numPage = generateRandomBigInt(RandomMin,RandomMax);
     $.get("http://localhost:3333/P"+numPage, function(data, status){
-        //history.pushState({}, null, "http://localhost:3333/"+numPage);
-        var status_str = data;
-        var f_num = parseInt($('#found_num_pilot').html());
+        status_str = data;
+        f_num = parseInt(document.getElementById("found_num_pilot").innerHTML);
         if(status_str == "Yes" ) { 
-            f_num = f_num + 1;
-            $('#found_num_pilot').html(f_num); 
+            document.getElementById("found_num_pilot").innerHTML = f_num + 1; 
         }
         if(status_str == "No" ) {
-            $('#found_num_pilot').html(f_num);
+            document.getElementById("found_num_pilot").innerHTML = f_num ;
         }
     })
-    checked_pages++;
-    $('#p_checked_pilot').html(checked_pages);
+    $('#p_checked_pilot').html(++checked_pages);
     $('#t_scanned_pilot').html((checked_pages *256));
 }
 $('#start_auto_pilot').click(function() {
@@ -1327,9 +1325,8 @@ function pilot_sequence() {
     }
     else {
         $.get("http://localhost:3333/P"+ page_number, function(data, status){
-            //history.pushState({}, null, "http://localhost:3333/"+page_number);
-            var status_str = data;
-            var f_num = parseInt($('#found_num_pilot_seq').html());
+            status_str = data;
+            f_num = parseInt($('#found_num_pilot_seq').html());
             if(status_str == "Yes" ) { 
                 f_num = f_num + 1;
                 $('#found_num_pilot_seq').html(f_num); 
@@ -1339,24 +1336,23 @@ function pilot_sequence() {
             }
         })
     }
-    checked_pages++;
-    $('#p_checked_pilot_seq').html(checked_pages);
-    $('#t_scanned_pilot_seq').html((checked_pages *256));
-    $('#pilot_page_seq_num').html(page_number);                                              
+    document.getElementById("p_checked_pilot_seq").innerHTML = ++checked_pages;
+    document.getElementById("t_scanned_pilot_seq").innerHTML = checked_pages*256;
+    document.getElementById("pilot_page_seq_num").innerHTML = page_number;                                              
 }
 $('#start_auto_pilot_seq').click(function() {
     play_pilot_sequence = setInterval(pilot_sequence, pilot_speed);
     $(this).hide();
     $('#stop_auto_pilot_seq').show();
     checked_pages = 0;
-    page_number = BigInt($('#current_page').html());                
-    increment = BigInt($('#cur_inc').html());
+    page_number = BigInt(document.getElementById("current_page").innerHTML);                
+    increment = BigInt(document.getElementById("cur_inc").innerHTML);
     $('#start_auto').prop('disabled', true);
     $('#start_auto_seq').prop('disabled', true);
     $('#start_auto_pilot').prop('disabled', true);               
-    $('#p_checked_pilot_seq').html("0");
-    $('#found_num_pilot_seq').html("0");
-    $('#t_scanned_pilot_seq').html("0");
+    document.getElementById("p_checked_pilot_seq").innerHTML = "0";
+    document.getElementById("found_num_pilot_seq").innerHTML = "0";
+    document.getElementById("t_scanned_pilot_seq").innerHTML = "0";
     $('#status_str_pilot_seq').show();
 })
 $('#stop_auto_pilot_seq').click(function() {
