@@ -29,7 +29,6 @@
  .data_p2wsh{display:inline-block;width:436px;color:#D35400;}
  .data_wifc{display:inline-block;width:368px;color:#145A32;} 
  </pre>
- <p>let auto_speed = 500, pilot_speed = 300;  source(line=958)</p>
  <h3>Python dependencies:</h3>
  <p>pip install bitcoinlib<br>
  pip install pygame<br>
