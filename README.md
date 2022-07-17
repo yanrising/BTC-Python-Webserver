@@ -38,21 +38,23 @@
  pip install base58</p>
  
 <h3>Usage:</h3>
+<pre>
  <p>localhost:3333/1  -   go to page number 1 </p>
  <p>localhost:3333/@1098761 - search page by private key in decimal </p>
  <p>localhost:3333/$FA783FFDE - search page by private key in hex </p>
  <p>localhost:3333/5JWuC9UYTYHrj9Rh8c64YSU1TAt5KDmY231vgghfBCvF8h171Zq  - search by WIF</p>
  <p>localhost:3333/KzJyNCQZr97QV2Bz8ZsLdmQCzWcS3RMZuZu5xAETW3c1P9yJvk9Z - search by WIF</p>
  <p>localhost:3333/[3384] - change step for next</p>
- <p>localhost:3333/(3456-9876) - set range for random</p>
+ <p>localhost:3333/(3456-9876) - set range for random</p></pre>
  <p>or just paste
+ <pre>
  <p>1 - go to page number 1</p>
  <p>@1098761 - search page by private key in decimal</p>
  <p>$FA783FFDE - search page by private key in hex</p>
  <p>5JWuC9UYTYHrj9Rh8c64YSU1TAt5KDmY231vgghfBCvF8h171Zq - search by WIF</p>
  <p>KzJyNCQZr97QV2Bz8ZsLdmQCzWcS3RMZuZu5xAETW3c1P9yJvk9Z - search by WIF</p>
  <p>[3384] - change step for next</p>
- <p>(3456-9876) - set range for random</p>
+ <p>(3456-9876) - set range for random</p></pre>
  <p>in the Search Field</p>
  <br>
  <h4>You can download fresh txt database with addresses from here: http://addresses.loyce.club/</h4>
