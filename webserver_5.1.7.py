@@ -857,7 +857,7 @@ input[type=text], select {width:640px;padding:8px 10px;margin: 2px 0;display: in
 #head_p2wpkh{display:inline-block;width:298px;text-align:center;}
 #head_p2wsh{display:inline-block;width:436px;text-align:center;}
 #head_wifc{display:inline-block;width:368px;text-align:center;}
-.data_hex{color:#DE3163;display:inline-block;width:450px;}
+.data_hex{display:inline-block;width:450px;color:#DE3163;}
 .data_wifu{display:inline-block;width:360px;color:#145A32;}
 .data_legu{display:inline-block;width:242px;color:#145A32;}
 .data_legc{display:inline-block;width:242px;color:#D35400;}
