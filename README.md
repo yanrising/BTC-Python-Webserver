@@ -8,7 +8,7 @@
  - BloomFilter file creation (first download txt database from http://addresses.loyce.club/)<br>
  - Legacy(Compressed, Uncompressed), P2SH, Bech32 P2WPKH, Bech32 P2WSH addresses 
  </p>
- <h5>You can set it lo lower values if you want more speed in auto and pilot mode</h5>
+ <h5>You can set it to lower values if you want more speed in auto and pilot mode</h5>
  <pre>let auto_speed = 500, pilot_speed = 300;  source(line=958)</pre>
  <h5>If columns overlap increase values as you feel necessary(they come in pairs(head and data - width values should be equal))</h5>
  <pre>
