@@ -8,7 +8,10 @@
  - BloomFilter file creation (first download txt database from http://addresses.loyce.club/)<br>
  - Legacy(Compressed, Uncompressed), P2SH, Bech32 P2WPKH, Bech32 P2WSH addresses 
  </p>
- 
+ <br>
+ <h5>You can set it lo lower values if you want more speed in auto and pilot mode</h5>
+ <p>let auto_speed = 500, pilot_speed = 300;  source(line=958)</p>
+ <br>
  <h3>Python dependencies:</h3>
  <p>pip install bitcoinlib<br>
  pip install pygame<br>
