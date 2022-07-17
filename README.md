@@ -25,7 +25,15 @@
  <p>localhost:3333/KzJyNCQZr97QV2Bz8ZsLdmQCzWcS3RMZuZu5xAETW3c1P9yJvk9Z - search by WIF</p>
  <p>localhost:3333/[3384] - change step for next</p>
  <p>localhost:3333/(3456-9876) - set range for random</p>
- <p>or just paste the same in the Search Field</p>
+ <p>or just paste
+ 1 - go to page number 1
+ @1098761 - search page by private key in decimal
+ $FA783FFDE - search page by private key in hex
+ 5JWuC9UYTYHrj9Rh8c64YSU1TAt5KDmY231vgghfBCvF8h171Zq - search by WIF
+ KzJyNCQZr97QV2Bz8ZsLdmQCzWcS3RMZuZu5xAETW3c1P9yJvk9Z - search by WIF
+ [3384] - change step for next
+ (3456-9876) - set range for random
+ in the Search Field</p>
  <br>
  <h4>You can download fresh txt database with addresses from here: http://addresses.loyce.club/</h4>
  <p>Download. Unpack. Name it address.txt</p>
