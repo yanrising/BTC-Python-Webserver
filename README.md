@@ -55,7 +55,7 @@
  KzJyNCQZr97QV2Bz8ZsLdmQCzWcS3RMZuZu5xAETW3c1P9yJvk9Z - search by WIF
  [3384] - change step for next
  (3456-9876) - set range for random</pre>
- <p>in the Search Field</p>
+ <p>in the Search Field.</p>
  <br>
  <h4>You can download fresh txt database with addresses from here: http://addresses.loyce.club/</h4>
  <p>Download. Unpack. Name it address.txt</p>
