@@ -10,7 +10,7 @@
  </p>
  <h5>You can set it lo lower values if you want more speed in auto and pilot mode</h5>
  <p>let auto_speed = 500, pilot_speed = 300;  source(line=958)</p>
- <h5>If columns overlap increase values as you fell necessary</h5>
+ <h5>If columns overlap increase values as you feel necessary(as you see they come in pairs(head and data - should be equal)</h5>
  <pre>
  #head_hex{display:inline-block;width:450px;text-align:center;} source(line=852..867)
  #head_wifu{display:inline-block;width:360px;text-align:center;}
