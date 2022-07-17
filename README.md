@@ -26,13 +26,13 @@
  <p>localhost:3333/[3384] - change step for next</p>
  <p>localhost:3333/(3456-9876) - set range for random</p>
  <p>or just paste
- 1 - go to page number 1
- @1098761 - search page by private key in decimal
- $FA783FFDE - search page by private key in hex
- 5JWuC9UYTYHrj9Rh8c64YSU1TAt5KDmY231vgghfBCvF8h171Zq - search by WIF
- KzJyNCQZr97QV2Bz8ZsLdmQCzWcS3RMZuZu5xAETW3c1P9yJvk9Z - search by WIF
- [3384] - change step for next
- (3456-9876) - set range for random
+ 1 - go to page number 1<br>
+ @1098761 - search page by private key in decimal<br>
+ $FA783FFDE - search page by private key in hex<br>
+ 5JWuC9UYTYHrj9Rh8c64YSU1TAt5KDmY231vgghfBCvF8h171Zq - search by WIF<br>
+ KzJyNCQZr97QV2Bz8ZsLdmQCzWcS3RMZuZu5xAETW3c1P9yJvk9Z - search by WIF<br>
+ [3384] - change step for next<br>
+ (3456-9876) - set range for random<br>
  in the Search Field</p>
  <br>
  <h4>You can download fresh txt database with addresses from here: http://addresses.loyce.club/</h4>
