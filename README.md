@@ -39,7 +39,7 @@
  
  <h3>Usage:</h3>
  <pre>
- localhost:3333/1  -   go to page number 1
+ localhost:3333/1  -  go to page number 1
  localhost:3333/@1098761 - search page by private key in decimal
  localhost:3333/$FA783FFDE - search page by private key in hex
  localhost:3333/5JWuC9UYTYHrj9Rh8c64YSU1TAt5KDmY231vgghfBCvF8h171Zq  - search by WIF
