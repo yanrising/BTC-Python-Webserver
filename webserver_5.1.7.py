@@ -1333,7 +1333,8 @@ $(function() {
 })
 $(document).on('click', '.data_hex', function() {
     var path = window.location.pathname;
-    if(path == '/904625697166532776746648320380374280100293470930272690489102837043110636675') { $('#all_num').html(64); }           
+    if(path == '/904625697166532776746648320380374280100293470930272690489102837043110636675') { $('#all_num').html(64); } 
+    else {$('#all_num').html(128);}
     var val = $(this).attr('value');
     var num = $(this).attr('num');
     $('#arrow_num').html(num);
