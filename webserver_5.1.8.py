@@ -1325,7 +1325,11 @@ $(function() {
 $(document).on('click', '.data_hex', function() {
     var path = window.location.pathname;
     if(path == '/904625697166532776746648320380374280100293470930272690489102837043110636675') { $('#all_num').html(64); } 
+<<<<<<< HEAD:webserver_5.1.8.py
     else {$('#all_num').html(128);}          
+=======
+    else {$('#all_num').html(128);}
+>>>>>>> 0e40d40430320b962152a19a28e10a9421261d87:webserver_5.1.7.py
     var val = $(this).attr('value');
     var num = $(this).attr('num');
     $('#arrow_num').html(num);
