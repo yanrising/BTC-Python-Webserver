@@ -57,7 +57,7 @@
  (3456-9876) - set range for random</pre>
  <p>in the Search Field and then make a click on page.</p>
  <br>
- <h4>You can download fresh txt database with addresses from here: http://addresses.loyce.club/</h4>
+ <h4>You can download fresh txt database with addresses from here(right column): http://addresses.loyce.club/</h4>
  <p>Download. Unpack. Name it address.txt</p>
  <p>Start create_bloom_file.py and wait untill done.</p>
  <p>Then just start webserver.py</p>
