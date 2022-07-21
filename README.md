@@ -12,7 +12,7 @@
  <pre>let auto_speed = 500, pilot_speed = 300;  source(line=951)</pre>
  <h5>If columns overlap increase values as you feel necessary(they come in pairs(head and data - width values should be equal))</h5>
  <pre>
- #head_hex{display:inline-block;width:450px;text-align:center;}  source(line=852..867)
+ #head_hex{display:inline-block;width:450px;text-align:center;}  source(line=845..860)
  #head_wifu{display:inline-block;width:360px;text-align:center;}
  #head_legu{display:inline-block;width:242px;text-align:center;}
  #head_legc{display:inline-block;width:242px;text-align:center;}
