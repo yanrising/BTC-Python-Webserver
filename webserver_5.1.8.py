@@ -12,8 +12,7 @@ from bloomfilter import *
 
 hostName,serverPort,version,found_sound = "localhost",3333,"v5.1.7",'success.mp3'
 N = 115792089237316195423570985008687907852837564279074904382605163141518161494337
-N1 = 37718080363155996902926221483475020450927657555482586988616620542887997980018
-N2 = 78074008874160198520644763525212887401909906723592317393988542598630163514318
+N1,N2 = 37718080363155996902926221483475020450927657555482586988616620542887997980018,78074008874160198520644763525212887401909906723592317393988542598630163514318
 G = bytes(bytearray.fromhex('0479be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8'))
 Point_Coefficient = 1
 #G = bytes(bytearray.fromhex('0479be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798b7c52588d95c3b9aa25b0403f1eef75702e84bb7597aabe663b82f6f04ef2777'))
@@ -72,18 +71,12 @@ def div(a,b):
 class WebServer(BaseHTTPRequestHandler):
     num=startPrivKey=random=random5H=random5J=random5K=randomKw=randomKx=randomKy=randomKz=0
     randomL1=randomL2=randomL3=randomL4=randomL5=previous=next=0
-    max = 904625697166532776746648320380374280100293470930272690489102837043110636675
-    middle = 452312848583266388373324160190187140050146735465136345244551418521555318338 
-    hj = 85966769946697919304477156997851416897897452779964215616135418886216209408
-    jk = 551340488851368173693535237984541213163631919119002481700768830238824024064
-    L1 = 398639737335773246472125555160783623763937797351505550641748492138749584881
-    L2 = 504075970525112600982146526634330530730393262381443907801548249398324792889
-    L3 = 609512203714451955492167498107877437696848727411382264961348006657900000897
-    L4 = 714948436903791310002188469581424344663304192441320622121147763917475208905
-    L5 = 820384670093130664512209441054971251629759657471258979280947521177050416913
-    Kx = 82331037767755182942062640740142902864571402261690479162349220360023960857
-    Ky = 187767270957094537452083612213689809831026867291628836322148977619599168865
-    Kz = 293203504146433891962104583687236716797482332321567193481948734879174376873
+    max,middle = 904625697166532776746648320380374280100293470930272690489102837043110636675,452312848583266388373324160190187140050146735465136345244551418521555318338 
+    hj,jk = 85966769946697919304477156997851416897897452779964215616135418886216209408,551340488851368173693535237984541213163631919119002481700768830238824024064
+    Kx,Ky = 82331037767755182942062640740142902864571402261690479162349220360023960857,187767270957094537452083612213689809831026867291628836322148977619599168865
+    L1,L2 = 398639737335773246472125555160783623763937797351505550641748492138749584881,504075970525112600982146526634330530730393262381443907801548249398324792889
+    L3,L4 = 609512203714451955492167498107877437696848727411382264961348006657900000897,714948436903791310002188469581424344663304192441320622121147763917475208905
+    L5,Kz = 820384670093130664512209441054971251629759657471258979280947521177050416913,293203504146433891962104583687236716797482332321567193481948734879174376873
     randomMax=rndMax=max
     randomMin=rndMin=first=stride=p1=p2=p3=p4=p5=p6=1    
     p7,p8,p9,p10,p11,p12,p13,p14,p15,p16,p17,p18,p19 = 2,3,5,9,17,33,65,129,257,513,1025,2049,4097
@@ -263,7 +256,7 @@ class WebServer(BaseHTTPRequestHandler):
                 same1n = n2
                 same2n = n1
             samey1P = ice.scalar_multiplication(same1n)
-            samey2P = ice.scalar_multiplication(same2n)            			
+            samey2P = ice.scalar_multiplication(same2n)
             sameaddr1U = ice.pubkey_to_address(0, False, bytes.fromhex(samey1P.hex()))
             sameaddr1C = ice.pubkey_to_address(0, True, bytes.fromhex(samey1P.hex()))
             addrP2sh_same1 = ice.privatekey_to_address(1, True, (same1n)) #p2sh
@@ -814,7 +807,7 @@ class WebServer(BaseHTTPRequestHandler):
                             __class__.next = __class__.num + __class__.stride                
                             if __class__.next > __class__.max:
                                  __class__.next = __class__.max
-                            __class__.random = __class__.RandomInteger(__class__.randomMin,__class__.randomMax)			
+                            __class__.random = __class__.RandomInteger(__class__.randomMin,__class__.randomMax)
             self.wfile.write(bytes("""
 <!DOCTYPE html>
 <html>
@@ -956,7 +949,7 @@ Pages checked:&nbsp;<span id='p_checked_pilot_seq'>0</span> &nbsp;&nbsp;Total ad
             self.wfile.write(bytes("""
 <script>
 let auto_speed = 500, pilot_speed = 300;
-let play_random = 0, play_sequence = 0, play_pilot = 0, play_pilot_sequence = 0, difference = 0, f_num = 0;;
+let play_random = 0, play_sequence = 0, play_pilot = 0, play_pilot_sequence = 0, difference = 0, f_num = 0;
 let page_number = BigInt(0), checked_pages = BigInt(0), increment = BigInt(0);
 let RandomMin = BigInt(0), RandomMax = BigInt(0), numPage = BigInt(0), randomDifference = BigInt(0); 
 let differenceLength = '', multiplier = '', divisor = '', found_str = '', status_str = ''; 
@@ -983,9 +976,7 @@ function generateRandomBigInt(lowBigInt, highBigInt) {
     differenceLength = difference.toString().length;
     multiplier = '';
     while (multiplier.length < differenceLength) {
-        multiplier += Math.random()
-        .toString()
-        .split('.')[1];
+        multiplier += Math.random().toString().split('.')[1];
     }
     multiplier = multiplier.slice(0, differenceLength);
     divisor = '1' + '0'.repeat(differenceLength);
@@ -1028,24 +1019,24 @@ $('#start_auto').click(function() {
 })
 $('#stop_auto').click(function() {
     clearInterval(play_random);                    
-    $('#start_auto_seq').prop('disabled', false);
-    $('#start_auto_pilot').prop('disabled', false);
-    $('#start_auto_pilot_seq').prop('disabled', false);
-    $('#search_line').prop('disabled', false);
-    $(this).hide();
-    $('#start_auto').show();
+    document.getElementById("start_auto_seq").removeAttribute("disabled");
+    document.getElementById("start_auto_pilot").removeAttribute("disabled");
+    document.getElementById("start_auto_pilot_seq").removeAttribute("disabled");
+    document.getElementById("search_line").removeAttribute("disabled");
+    document.getElementById("stop_auto").style.display = "none";
+    document.getElementById("start_auto").style.display = "inline";
     $('#status_str').fadeOut(1000);     
 })
 function sequence() {
     page_number += increment;                
     if (page_number > BigInt("904625697166532776746648320380374280100293470930272690489102837043110636675")) {
         clearInterval(play_sequence);
-        $('#start_auto_seq').prop('disabled', false);
-        $('#start_auto').prop('disabled', false);
-        $('#start_auto_pilot').prop('disabled', false);
-        $('#start_auto_pilot_seq').prop('disabled', false);
-        $('#stop_auto_seq').hide();
-        $('#start_auto_seq').show();
+        document.getElementById("search_line").removeAttribute("disabled");
+        document.getElementById("start_auto_pilot").removeAttribute("disabled");
+        document.getElementById("start_auto_pilot_seq").removeAttribute("disabled");
+        document.getElementById("start_auto").removeAttribute("disabled");
+        document.getElementById("stop_auto_seq").style.display = "none";
+        document.getElementById("start_auto_seq").style.display = "inline";
         $('#status_str_seq').fadeOut(1500);
         checked_pages = 0;
         return false;
@@ -1333,7 +1324,8 @@ $(function() {
 })
 $(document).on('click', '.data_hex', function() {
     var path = window.location.pathname;
-    if(path == '/904625697166532776746648320380374280100293470930272690489102837043110636675') { $('#all_num').html(64); }           
+    if(path == '/904625697166532776746648320380374280100293470930272690489102837043110636675') { $('#all_num').html(64); } 
+    else {$('#all_num').html(128);}          
     var val = $(this).attr('value');
     var num = $(this).attr('num');
     $('#arrow_num').html(num);
