@@ -860,9 +860,6 @@ input[type=text], select {width:640px;padding:8px 10px;margin: 2px 0;display: in
 .data_wifc{display:inline-block;width:368px;color:#145A32;}
 </style>""", "utf-8"))
             self.wfile.write(bytes("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>", "utf-8"))
-            '''with open("jquery-3.6.0.js", "r") as f:  
-                data = f.read()
-            self.wfile.write(bytes("<script>"+str(data)+"</script>", "utf-8"))'''
             self.wfile.write(bytes("<script>var point_coefficient=BigInt('"+str(Point_Coefficient)+"');</script>", "utf-8"))
             self.wfile.write(bytes("<script>var N = BigInt('115792089237316195423570985008687907852837564279074904382605163141518161494337');</script>", "utf-8"))
             self.wfile.write(bytes("""
