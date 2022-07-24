@@ -869,7 +869,7 @@ input[type=text], select {width:640px;padding:8px 10px;margin: 2px 0;display: in
             self.wfile.write(bytes("<p class='gen_point'><span>Point Coefficient *** |&nbsp;<span style='color:#DE3163;'>"+str(Point_Coefficient)+"</span>&nbsp;|</span></p>", "utf-8"))
             self.wfile.write(bytes("<h2><span style='color:#34495E;'><input type='text' id='search_line' name='lastname' placeholder='Search Field' autocomplete='off'>&nbsp;&nbsp;&nbsp;Bitcoin addresses database&nbsp;***|&nbsp;" + str(__class__.addr_count) + " |</span></h2>", "utf-8")) 
             self.wfile.write(bytes("<p class='page_inc_rand'>Current page increment for next = <span id='cur_inc'>" + str(__class__.stride) + "</span></p>", "utf-8"))
-            self.wfile.write(bytes("<p class='page_inc_rand'>Current random range = <span id='rand_min'>" + str(__class__.randomMin) + "</span> - <span id='rand_max'>" + str(__class__.randomMax) + "</span></p>", "utf-8"))            
+            self.wfile.write(bytes("<p class='page_inc_rand'>Current random range = <span id='rand_min'>" + str(__class__.randomMin) + "</span> ... <span id='rand_max'>" + str(__class__.randomMax) + "</span></p>", "utf-8"))            
             self.wfile.write(bytes("<pre><a class='ajax' page='/"+str(__class__.p255)+"'>2^255</a>|<a class='ajax' page='/"+str(__class__.p254)+"'>2^254</a>|<a class='ajax' page='/"+str(__class__.p253)+"'>2^253</a>|<a class='ajax' page='/"+str(__class__.p252)+"'>2^252</a>|<a class='ajax' page='/"+str(__class__.p251)+"'>2^251</a>|<a class='ajax' page='/"+str(__class__.p250)+"'>2^250</a>", "utf-8"))
             self.wfile.write(bytes("|<a class='ajax' page='/"+str(__class__.p249)+"'>2^249</a>|<a class='ajax' page='/"+str(__class__.p248)+"'>2^248</a>|<a class='ajax' page='/"+str(__class__.p247)+"'>2^247</a>|<a class='ajax' page='/"+str(__class__.p246)+"'>2^246</a>|<a class='ajax' page='/"+str(__class__.p245)+"'>2^245</a>|<a class='ajax' page='/"+str(__class__.p244)+"'>2^244</a>", "utf-8"))
             self.wfile.write(bytes("|<a class='ajax' page='/"+str(__class__.p243)+"'>2^243</a>|<a class='ajax' page='/"+str(__class__.p242)+"'>2^242</a>|<a class='ajax' page='/"+str(__class__.p241)+"'>2^241</a>|<a class='ajax' page='/"+str(__class__.p240)+"'>2^240</a>|<a class='ajax' page='/"+str(__class__.p239)+"'>2^239</a>|<a class='ajax' page='/"+str(__class__.p238)+"'>2^238</a>", "utf-8"))
@@ -1322,11 +1322,7 @@ $(function() {
 $(document).on('click', '.data_hex', function() {
     var path = window.location.pathname;
     if(path == '/904625697166532776746648320380374280100293470930272690489102837043110636675') { $('#all_num').html(64); } 
-<<<<<<< HEAD:webserver_5.1.8.py
     else {$('#all_num').html(128);}          
-=======
-    else {$('#all_num').html(128);}
->>>>>>> 0e40d40430320b962152a19a28e10a9421261d87:webserver_5.1.7.py
     var val = $(this).attr('value');
     var num = $(this).attr('num');
     $('#arrow_num').html(num);
