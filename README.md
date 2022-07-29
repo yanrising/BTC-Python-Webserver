@@ -8,27 +8,6 @@
  - BloomFilter file creation (first download txt database from http://addresses.loyce.club/)<br>
  - Legacy(Compressed, Uncompressed), P2SH, Bech32 P2WPKH, Bech32 P2WSH addresses 
  </p>
- <h5>You can set it to lower values if you want more speed in auto and pilot mode</h5>
- <pre>let auto_speed = 500, pilot_speed = 300;  source(line=951)</pre>
- <h5>If columns overlap increase values as you feel necessary(they come in pairs(head and data - width values should be equal))</h5>
- <pre>
- #head_hex{display:inline-block;width:450px;text-align:center;}  source(line=845..860)
- #head_wifu{display:inline-block;width:360px;text-align:center;}
- #head_legu{display:inline-block;width:242px;text-align:center;}
- #head_legc{display:inline-block;width:242px;text-align:center;}
- #head_p2sh{display:inline-block;width:244px;text-align:center;}
- #head_p2wpkh{display:inline-block;width:298px;text-align:center;}
- #head_p2wsh{display:inline-block;width:436px;text-align:center;}
- #head_wifc{display:inline-block;width:368px;text-align:center;}
- .data_hex{display:inline-block;width:450px;color:#DE3163;}
- .data_wifu{display:inline-block;width:360px;color:#145A32;}
- .data_legu{display:inline-block;width:242px;color:#145A32;}
- .data_legc{display:inline-block;width:242px;color:#D35400;}
- .data_p2sh{display:inline-block;width:244px;color:#D35400;}
- .data_p2wpkh{display:inline-block;width:298px;color:#D35400;}
- .data_p2wsh{display:inline-block;width:436px;color:#D35400;}
- .data_wifc{display:inline-block;width:368px;color:#145A32;} 
- </pre>
  <h3>Python dependencies:</h3>
  <p>pip install bitcoinlib<br>
  pip install pygame<br>
